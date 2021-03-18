@@ -1,0 +1,105 @@
+commit 69940a6d872fc7827188c54ffef561fcd65de4cd
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 14:14:08 2021 +0200
+
+    poistettu tiedostoja/file1, uudelleen nimetty tiedostoja/file2 -> file22
+
+ tiedostoja/file2             | 0
+ tiedostoja/{file1 => file22} | 0
+ 2 files changed, 0 insertions(+), 0 deletions(-)
+
+commit a0bd31c2ce254f13ffda1957bf2a11a18952f982
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 14:06:25 2021 +0200
+
+    tiedostoja/file[1-3] luotu
+
+ tiedostoja/file1 | 0
+ tiedostoja/file2 | 0
+ tiedostoja/file3 | 0
+ 3 files changed, 0 insertions(+), 0 deletions(-)
+
+commit 994a8977b41714209edb2ee24072e31c2d0cecc5
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 13:59:44 2021 +0200
+
+    eka.txt ja kolmas.txt muutettu
+
+ eka.txt    | 9 ++-------
+ kolmas.txt | 4 +++-
+ 2 files changed, 5 insertions(+), 8 deletions(-)
+
+commit df0e1d0fb4ab879dd4bde01cb0ecf20f9b273e32
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 13:56:55 2021 +0200
+
+    tiedosto.txt uudelleennimetty eka.txt
+
+ tiedosto.txt => eka.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 7cda55b37b84857d7885675554c64dba8d47f6ba
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 13:54:43 2021 +0200
+
+    toinen.txt poistettu
+
+ toinen.txt | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 8a3c94f919b8bd4e7ce7526accf63e53f1f03be7
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 13:51:46 2021 +0200
+
+    tiedosto.txt muutettu
+
+ tiedosto.txt | 33 ++-------------------------------
+ 1 file changed, 2 insertions(+), 31 deletions(-)
+
+commit 1fa879953313f745a1246a2fc67b3381c3eaa89e
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 13:45:59 2021 +0200
+
+    lisätty tekstiä tiedostoon tiedosto.txt
+
+ tiedosto.txt | 1097 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 1096 insertions(+), 1 deletion(-)
+
+commit a93fd2edaf61bd3e21523ebad8340f6318ed7ec6
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 13:20:32 2021 +0200
+
+    muutettu tiedostoja ja lisätty hakemisto
+
+ kolmas.txt     | 1 +
+ stuff/puff.txt | 4 ++++
+ toinen.txt     | 1 +
+ 3 files changed, 6 insertions(+)
+
+commit 1ee6953480481e45a54630b75e5dcda7aefc3ef2
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 13:17:31 2021 +0200
+
+    kolmas.txt lisätty
+
+ kolmas.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 2683a4887c672d11135940385eb7d48fe80c00ed
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 13:13:30 2021 +0200
+
+    muutos ja lisäys
+
+ tiedosto.txt | 1 +
+ toinen.txt   | 0
+ 2 files changed, 1 insertion(+)
+
+commit 8699b06e0649c3613807e49e8d154a946fc68b5a
+Author: Petro Lehtonen <petro.lehtonen@gmail.com>
+Date:   Thu Mar 18 13:09:39 2021 +0200
+
+    tiedosto.txt luotu
+
+ tiedosto.txt | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
