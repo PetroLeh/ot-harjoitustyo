@@ -1,4 +1,6 @@
-# Ohjelmistotuotannon laskarit
+# Ohjelmistotuotannon harjoitustyö
+## laskarit
+### viikko 1
 
 Täältä löytyy ohjelmistotuotannon *kevät 2021* -kurssin harjoituksia.
 Esimerkiksi tämän tiedoston luominen ja muokkaus on osa **viikon 1** harjoituksia.
