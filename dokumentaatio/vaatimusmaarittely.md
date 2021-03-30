@@ -2,7 +2,7 @@
 
 ## Sovelluksen tarkoitus
 
-Sovellus on tarkoitettu pienimuotoiseen musiikin tekemiseen [Fast Tracker] (https://fi.wikipedia.org/wiki/Fast_Tracker) -hengessä.
+Sovellus on tarkoitettu pienimuotoiseen musiikin tekemiseen [Fast Tracker](https://fi.wikipedia.org/wiki/Fast_Tracker) -hengessä.
 Sovelluksella tehtyjä mestariteoksia voi tallentaa ja avata sovelluksella muokattavaksi tai nautittavaksi sellaisenaan.
 
 ## Käyttäjät
