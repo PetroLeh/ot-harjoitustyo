@@ -11,13 +11,14 @@ Sovelluksella on yksi käyttäjärooli, normaali käyttäjä.
 
 ## Käyttöliittymäluonnos
 
-**Käyttöliittymässä on näkymä:**
+**Käyttöliittymässä on seuraavat näkymät:**
  
+ - tervehdysnäkymä
  - tiedostojen selaamista (avaamista ja tallentamista) varten
  - asetusten muuttamista varten
  - työnäkymä, jossa työkalurivi sekä moniraitainen aikajana kappaleen työstämistä varten
 
-_(kuva tulossa)_
+![näkymät](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/nakymat.jpg)
 
 
 ## Toiminnallisuus
