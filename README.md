@@ -1,4 +1,9 @@
 # Ohjelmistotekniikan harjoitustyö
+
+## dokumentaatio
+ - [vaatimusmäärittely](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
+
+
 ## **laskarit**
 ### *viikko 1*
 
