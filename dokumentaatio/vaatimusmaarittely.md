@@ -11,7 +11,7 @@ Sovelluksella on yksi käyttäjärooli, normaali käyttäjä.
 
 ## Käyttöliittymäluonnos
 
-*Käyttöliittymässä on näkymä:*
+**Käyttöliittymässä on näkymä:**
  
  - tiedostojen selaamista (avaamista ja tallentamista) varten
  - asetusten muuttamista varten
