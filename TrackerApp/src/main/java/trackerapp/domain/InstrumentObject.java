@@ -9,9 +9,8 @@ public class InstrumentObject implements TrackObject {
     private String id;
     private int volume;
     
-    public InstrumentObject(String id, int volume) {
-        this.id = id;
-        this.volume = volume;
+    public InstrumentObject(String id) {
+        this.id = id;        
     }
     
     @Override

@@ -1,0 +1,19 @@
+Tämä on Ohjelmistotekniikan kevään 2021 kurssin harjoitustyö.
+
+
+Ohjelma on tarkoitettu pienimuotoiseen musiikin sämpläykseen
+nimensä mukaisesti tracker-tyyppisellä alustalla. Ohjelma
+itsessään on hyvin suppea, mutta jostain tähänkin on mahtipontisuutta
+saatava, joten ohjelmalla luotavia tuotoksia kutsutaan mestariteoksiksi.
+
+Voit joko aloittaa uuden mestariteoksen luomisen tai avata olemassa
+olevan mestariteoksen muokattavaksi, jos sellaisia on jo luotu. Paitsi,
+että vielä et voi tehdä juuri mitään :).
+
+
+
+
+
+tekijä
+Petro Lehtonen
+

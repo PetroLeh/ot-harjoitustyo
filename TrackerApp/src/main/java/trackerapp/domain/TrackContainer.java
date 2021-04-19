@@ -20,8 +20,15 @@ public class TrackContainer {
         return false;
     }
     
-    public TrackObject[] getObjects() {
+    public TrackObject[] getAllObjects() {
         return this.objects;
+    }
+    
+    public TrackObject getObject(int track) {
+        if (track >= 0 && track < this.objects.length) {
+            return this.objects[track];
+        }
+        return null;
     }
    
 }

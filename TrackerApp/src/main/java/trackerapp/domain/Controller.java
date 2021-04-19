@@ -46,7 +46,7 @@ public class Controller {
         if (tc == null) {
             return false;
         }
-        for (TrackObject object : tc.getObjects()) {
+        for (TrackObject object : tc.getAllObjects()) {
             if(object != null) {
                 object.activate(this);
             }
