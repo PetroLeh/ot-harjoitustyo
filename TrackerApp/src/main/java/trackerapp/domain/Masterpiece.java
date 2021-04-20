@@ -27,29 +27,37 @@ public class Masterpiece {
     }
     
     public String getName() {
-        return this.name;
+        return name;
     }
     
     public int getBpm() {
-        return this.bpm;
+        return bpm;
+    }
+    
+    public boolean addObject(int row, int track, TrackObject object) {
+        if (row >= 0 && row < rows.size()) {
+            return rows.get(row).addObject(track, object);                    
+        }
+        return false;
     }
     
     public void addRow(int tracks) {
-       this.rows.add(new TrackContainer(tracks));
+       rows.add(new TrackContainer(tracks));
     }    
         
     public TrackContainer getTrackContainer(int row) {
-        if (row >= 0 && row < this.rows.size()) {
-            return this.rows.get(row);
+        if (row >= 0 && row < rows.size()) {
+            return rows.get(row);
         }
         return null;
     }
     
     public ArrayList<TrackContainer> getAllTrackContainers() {
-        return this.rows;
+        return rows;
     }
     
     public int size() {
-        return this.rows.size();
+        return rows.size();
     }
+    
 }

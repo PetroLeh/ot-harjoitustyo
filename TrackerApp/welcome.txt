@@ -10,6 +10,11 @@ Voit joko aloittaa uuden mestariteoksen luomisen tai avata olemassa
 olevan mestariteoksen muokattavaksi, jos sellaisia on jo luotu. Paitsi,
 että vielä et voi tehdä juuri mitään :).
 
+Tähän versioon on lisätty automaattinen kappaleen luonti, jotta on jotain
+mitä kuunnella miettiessä syntyjä syviä. Sen ei ole tarkoituskaan kuulostaa
+hyvältä...
+
+Palaillaan!
 
 
 

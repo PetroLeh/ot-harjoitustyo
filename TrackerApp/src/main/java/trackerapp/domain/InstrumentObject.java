@@ -1,6 +1,8 @@
 
 package trackerapp.domain;
 
+import javafx.scene.media.AudioClip;
+
 /**
  *
  * @author lehtonep
@@ -8,18 +10,21 @@ package trackerapp.domain;
 public class InstrumentObject implements TrackObject {
     private String id;
     private int volume;
+    private AudioClip audio;
     
-    public InstrumentObject(String id) {
-        this.id = id;        
+    public InstrumentObject(String id, AudioClip audio) {
+        this.id = id;
+        this.audio = audio;
     }
     
     @Override
-    public void activate(Controller c) {
-        System.out.println("Aktivoitu: " + getId());
+    public void activate() {
+        System.out.println("aktivoitu: " + getId());
+        audio.play();
     }
     
     @Override
     public String getId() {
-        return this.id;
+        return id;
     }
 }

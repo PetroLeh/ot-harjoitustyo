@@ -19,7 +19,7 @@ public class TrackContainerTest {
     @Test
     public void addingObjectsToContainerWorks() {
         TrackContainer tc = new TrackContainer(5);
-        TrackObject testObject = new InstrumentObject("test");
+        TrackObject testObject = new InstrumentObject("test", null);
         
         assertFalse(tc.addObject(-1, testObject));
         assertFalse(tc.addObject(5, testObject));

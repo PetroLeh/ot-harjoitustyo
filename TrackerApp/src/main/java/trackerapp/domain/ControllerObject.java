@@ -9,12 +9,12 @@ public class ControllerObject implements TrackObject {
     private String id;
     
     @Override
-    public void activate (Controller c) {
+    public void activate () {
         System.out.println("Aktivoitu: " + getId());
     }
     
     @Override public String getId() {
-        return this.id;
+        return id;
     }
     
 }

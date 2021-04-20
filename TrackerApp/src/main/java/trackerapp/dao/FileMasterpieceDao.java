@@ -10,7 +10,7 @@ import trackerapp.domain.Masterpiece;
 public class FileMasterpieceDao implements MasterpieceDao {
     
     public Masterpiece getNewMasterpiece(int rows, int tracks) {
-        Masterpiece newMasterpiece = new Masterpiece("nimetön", 120);
+        Masterpiece newMasterpiece = new Masterpiece("nimetön", 180);
         for (int row = 0; row <= rows; row++) {
             newMasterpiece.addRow(tracks);
         }
