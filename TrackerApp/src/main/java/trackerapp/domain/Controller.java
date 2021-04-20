@@ -19,7 +19,7 @@ public class Controller {
     private int currentBpm, masterVolume, currentRow, nextRow;
     private boolean playing;
     private Label infoLabel;
-    
+
     public Controller(MasterpieceDao masterpieceDao) {
         this.masterpieceDao = masterpieceDao;
         this.playing = false;
@@ -59,11 +59,11 @@ public class Controller {
         currentBpm = bpm;
         timer.setBpm(bpm);
     }
-    
+
     public void setInfoBar(Label infoLabel) {
         this.infoLabel = infoLabel;
     }
-    
+
     public void updateInfoBar() {
         infoLabel.setText(getInfo());
     }
@@ -112,29 +112,29 @@ public class Controller {
     }
 
     public void randomMasterpiece() {
-        AudioClip audio_kattila = new AudioClip("file:audio/testi_kattila.wav");
-        AudioClip audio_kansi = new AudioClip("file:audio/testi_kansi.wav");
-        AudioClip audio_kansi2 = new AudioClip("file:audio/testi_kansi2.wav");
+        AudioClip audioKattila = new AudioClip("file:audio/testi_kattila.wav");
+        AudioClip audioKansi = new AudioClip("file:audio/testi_kansi.wav");
+        AudioClip audioKansi2 = new AudioClip("file:audio/testi_kansi2.wav");
 
-        AudioClip audio_kitara_a = new AudioClip("file:audio/testi_kitara_a.wav");
-        AudioClip audio_kitara_c = new AudioClip("file:audio/testi_kitara_c.wav");
-        AudioClip audio_kitara_e2 = new AudioClip("file:audio/testi_kitara_e2.wav");
-        AudioClip audio_kitara_g2 = new AudioClip("file:audio/testi_kitara_g2.wav");
-        AudioClip audio_kitara_a2 = new AudioClip("file:audio/testi_kitara_a2.wav");
-        AudioClip audio_kitara_c2 = new AudioClip("file:audio/testi_kitara_c2.wav");
-        AudioClip audio_kitara_e3 = new AudioClip("file:audio/testi_kitara_e3.wav");
+        AudioClip audioKitaraA = new AudioClip("file:audio/testi_kitara_a.wav");
+        AudioClip audioKitaraC = new AudioClip("file:audio/testi_kitara_c.wav");
+        AudioClip audioKitaraE2 = new AudioClip("file:audio/testi_kitara_e2.wav");
+        AudioClip audioKitaraG2 = new AudioClip("file:audio/testi_kitara_g2.wav");
+        AudioClip audioKitaraA2 = new AudioClip("file:audio/testi_kitara_a2.wav");
+        AudioClip audioKitaraC2 = new AudioClip("file:audio/testi_kitara_c2.wav");
+        AudioClip audioKitaraE3 = new AudioClip("file:audio/testi_kitara_e3.wav");
 
-        InstrumentObject kattila = new InstrumentObject("kattila", audio_kattila);
-        InstrumentObject kansi = new InstrumentObject("kansi", audio_kansi);
-        InstrumentObject kansi2 = new InstrumentObject("kansi2", audio_kansi2);
+        InstrumentObject kattila = new InstrumentObject("kattila", audioKattila);
+        InstrumentObject kansi = new InstrumentObject("kansi", audioKansi);
+        InstrumentObject kansi2 = new InstrumentObject("kansi2", audioKansi2);
 
-        InstrumentObject kitara_a = new InstrumentObject("(kitara) a", audio_kitara_a);
-        InstrumentObject kitara_c = new InstrumentObject("(kitara) c", audio_kitara_c);
-        InstrumentObject kitara_e2 = new InstrumentObject("(kitara) e2", audio_kitara_e2);
-        InstrumentObject kitara_g2 = new InstrumentObject("(kitara) g2", audio_kitara_g2);
-        InstrumentObject kitara_a2 = new InstrumentObject("(kitara) a2", audio_kitara_a2);
-        InstrumentObject kitara_c2 = new InstrumentObject("(kitara) c2", audio_kitara_c2);
-        InstrumentObject kitara_e3 = new InstrumentObject("(kitara) e3", audio_kitara_e3);
+        InstrumentObject kitaraA = new InstrumentObject("(kitara) a", audioKitaraA);
+        InstrumentObject kitaraC = new InstrumentObject("(kitara) c", audioKitaraC);
+        InstrumentObject kitaraE2 = new InstrumentObject("(kitara) e2", audioKitaraE2);
+        InstrumentObject kitaraG2 = new InstrumentObject("(kitara) g2", audioKitaraG2);
+        InstrumentObject kitaraA2 = new InstrumentObject("(kitara) a2", audioKitaraA2);
+        InstrumentObject kitaraC2 = new InstrumentObject("(kitara) c2", audioKitaraC2);
+        InstrumentObject kitaraE3 = new InstrumentObject("(kitara) e3", audioKitaraE3);
 
         Random r = new Random();
         for (int row = 0; row < masterpiece.size(); row++) {
@@ -148,19 +148,19 @@ public class Controller {
                     } else if (n < 3) {
                         addObject(row, track, kansi2);
                     } else if (n < 10) {
-                        addObject(row, track, kitara_a);
+                        addObject(row, track, kitaraA);
                     } else if (n < 17) {
-                        addObject(row, track, kitara_e2);
+                        addObject(row, track, kitaraE2);
                     } else if (n < 21) {
-                        addObject(row, track, kitara_a2);
+                        addObject(row, track, kitaraA2);
                     } else if (n < 24) {
-                        addObject(row, track, kitara_c2);
+                        addObject(row, track, kitaraC2);
                     } else if (n < 26) {
-                        addObject(row, track, kitara_e3);
+                        addObject(row, track, kitaraE3);
                     } else if (n < 30) {
-                        addObject(row, track, kitara_c);
+                        addObject(row, track, kitaraC);
                     } else if (n < 34) {
-                        addObject(row, track, kitara_g2);
+                        addObject(row, track, kitaraG2);
                     }
                 }
             }

@@ -10,9 +10,6 @@ public class TrackContainer {
 
     public TrackContainer(int tracks) {
         objects = new TrackObject[tracks];
-        //for (int track = 0; track < tracks; track++) {
-        //    addObject(track, new EmptyObject());
-        //}
     }
 
     public void activate() {
@@ -41,7 +38,7 @@ public class TrackContainer {
         }
         return null;
     }
-    
+
     public String getObjectId(int track) {
         if (track >= 0 && track < objects.length) {
             if (objects[track] != null) {
