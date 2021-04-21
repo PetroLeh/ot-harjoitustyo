@@ -1,12 +1,12 @@
 package trackerapp.ui;
 
 import trackerapp.dao.*;
-import trackerapp.domain.Controller;
+import trackerapp.domain.TrackerService;
+import trackerapp.domain.Player;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Properties;
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -38,8 +38,9 @@ public class TrackerAppUi extends Application {
 
     private TextFileDao filereader = new TextFileDao();
     MasterpieceDao masterpieceDao = new FileMasterpieceDao();
-    private Controller controller;
-    
+    private TrackerService tracker;
+    private Player player;
+
     private Font masterpieceGridFont;
 
     @Override
@@ -53,13 +54,13 @@ public class TrackerAppUi extends Application {
         String welcomeFile = properties.getProperty("welcomeTextFile");
         welcomeText = filereader.getAsString(welcomeFile);
 
-        controller = new Controller(masterpieceDao);
+        tracker = new TrackerService(masterpieceDao);
+        player = new Player(tracker);
         masterpieceGridFont = new Font(15);
     }
 
     @Override
     public void start(Stage stage) {
-
         setWelcomeScene(stage);
 
         BorderPane mainPane = new BorderPane();
@@ -73,7 +74,7 @@ public class TrackerAppUi extends Application {
 
         GridPane masterpieceGrid = new GridPane();
         HBox infoBar = new HBox(30);
-        Label infoLabel = new Label(controller.getInfo());
+        Label infoLabel = new Label(tracker.getInfo());
         TextField bpmField = new TextField();
         bpmField.setPrefWidth(40);
         bpmField.setText("180");
@@ -81,28 +82,27 @@ public class TrackerAppUi extends Application {
         toolBar.getItems().addAll(playButton, stopButton, pauseButton, new Separator(), new Label("iskua minuutissa: "), bpmField, bpmButton, new Separator(), randomMasterpieceButton);
         infoBar.getChildren().add(infoLabel);
         infoLabel.setFont(new Font(20));
-        controller.setInfoBar(infoLabel);
+        tracker.setInfoBar(infoLabel);
 
         pauseButton.setDisable(true);
 
         playButton.setOnAction(e -> {
             pauseButton.setDisable(false);
-            controller.play();
-
+            player.start();
         });
         stopButton.setOnAction(e -> {
             pauseButton.setDisable(true);
-            controller.stop();
+            player.stop();
         });
         pauseButton.setOnAction(e -> {
-            controller.pause();
+            player.pause();
         });
         bpmButton.setOnAction(e -> {
             String bpmString = bpmField.getText();
             try {
                 int bpm = Integer.valueOf(bpmString);
                 if (bpm > 0 && bpm <= 600) {
-                    controller.setBpm(bpm);
+                    tracker.setBpm(bpm);
                 } else {
                     showMessage("bpm", "syötä luku väliltä 1-600");
                 }
@@ -111,8 +111,8 @@ public class TrackerAppUi extends Application {
             }
         });
         randomMasterpieceButton.setOnAction(e -> {
-            controller.setNewMasterpiece(119, 4);
-            controller.randomMasterpiece();
+            tracker.setNewMasterpiece(119, 4);
+            tracker.randomMasterpiece();
             updateMasterpieceGrid(masterpieceGrid);
         });
 
@@ -121,31 +121,21 @@ public class TrackerAppUi extends Application {
         masterpieceGrid.setPadding(new Insets(30, 30, 30, 30));
         masterpieceGrid.setHgap(50);
         masterpieceGrid.setVgap(5);
-        
+
         mainPane.setTop(toolBar);
         mainPane.setCenter(masterpieceView);
         mainPane.setBottom(infoBar);
-
         mainPane.setPadding(new Insets(30, 30, 30, 30));
         mainScene = new Scene(mainPane, 1000, 600);
 
         stage.setScene(welcomeScene);
-
-        new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                controller.run();               
-                
-            }
-        }.start();
-
         stage.setTitle(title);
         stage.show();
     }
 
     private void updateMasterpieceGrid(GridPane masterpieceGrid) {
         masterpieceGrid.getChildren().clear();
-        ArrayList<String[]> trackInfo = controller.getMasterpieceTrackInfo();
+        ArrayList<String[]> trackInfo = tracker.getMasterpieceInfo();
         if (trackInfo != null) {
             int row = 0;
             for (String[] objectId : trackInfo) {
@@ -163,7 +153,6 @@ public class TrackerAppUi extends Application {
     }
 
     private void setWelcomeScene(Stage stage) {
-
         VBox welcomePane = new VBox(20);
         HBox welcomeButtons = new HBox(30);
         Separator separator = new Separator();
@@ -177,22 +166,19 @@ public class TrackerAppUi extends Application {
         Button closeButton = new Button("sulje");
 
         welcomeButtons.getChildren().addAll(newMasterpieceButton, openMasterpieceButton, closeButton);
+        welcomeButtons.setAlignment(Pos.CENTER);
+        
         welcomePane.setAlignment(Pos.CENTER);
         welcomePane.setPadding(new Insets(20, 20, 20, 20));
-
-        welcomeButtons.setAlignment(Pos.CENTER);
-
         welcomePane.getChildren().addAll(welcomeLabel, separator, welcomeTextPane, welcomeButtons);
 
         newMasterpieceButton.setOnAction(e -> {
-            controller.setNewMasterpiece(119, 4);
+            tracker.setNewMasterpiece(119, 4);
             stage.setScene(mainScene);
         });
-
         openMasterpieceButton.setOnAction(e -> {
             showMessage("lataa", "Tämä ei vielä ole mahdollista.");
         });
-
         closeButton.setOnAction(e -> {
             stage.close();
         });
@@ -201,7 +187,6 @@ public class TrackerAppUi extends Application {
 
     private void showMessage(String notYetTitle, String message) {
         Stage notYet = new Stage();
-
         Label notYetLabel = new Label(message);
         Button okButton = new Button("selvä sitte...");
         VBox pane = new VBox(20);
@@ -212,7 +197,6 @@ public class TrackerAppUi extends Application {
         });
         Scene notYetScene = new Scene(pane, 200, 100);
         notYet.setScene(notYetScene);
-
         notYet.setTitle(notYetTitle);
         notYet.show();
     }

@@ -10,38 +10,21 @@ import trackerapp.dao.MasterpieceDao;
  *
  * @author lehtonep
  */
-public class Controller {
+public class TrackerService {
 
     private Masterpiece masterpiece;
     private MasterpieceDao masterpieceDao;
-    private Timer timer;
 
     private int currentBpm, masterVolume, currentRow, nextRow;
-    private boolean playing;
+    private String playerStatus;
     private Label infoLabel;
 
-    public Controller(MasterpieceDao masterpieceDao) {
-        this.masterpieceDao = masterpieceDao;
-        this.playing = false;
-        this.currentRow = 0;
-        this.timer = new Timer(120);
+    public TrackerService(MasterpieceDao masterpieceDao) {
+        this.masterpieceDao = masterpieceDao;        
+        this.playerStatus = "pysäytetty";
+        this.currentRow = 0;        
     }
 
-    public void play() {
-        playing = true;
-        updateInfoBar();
-    }
-
-    public void stop() {
-        playing = false;
-        currentRow = 0;
-        updateInfoBar();
-    }
-
-    public void pause() {
-        playing = !playing;
-        updateInfoBar();
-    }
 
     public int getNextRow() {
         return nextRow;
@@ -51,13 +34,12 @@ public class Controller {
         return masterVolume;
     }
 
-    public boolean isPlaying() {
-        return playing;
-    }
-
     public void setBpm(int bpm) {
-        currentBpm = bpm;
-        timer.setBpm(bpm);
+        currentBpm = bpm;        
+    }
+    
+    public int getCurrentBpm() {
+        return currentBpm;
     }
 
     public void setInfoBar(Label infoLabel) {
@@ -68,18 +50,12 @@ public class Controller {
         infoLabel.setText(getInfo());
     }
 
-    public void run() {
-        if (playing) {
-            if (timer.tick()) {
-                activateTrackContainer(getCurrentRow());
-                updateInfoBar();
-                nextRow();
-            }
-        }
-    }
-
     public int getCurrentRow() {
         return currentRow;
+    }
+    
+    public void setCurrentRow(int row) {
+        currentRow = row;
     }
 
     public void nextRow() {
@@ -88,27 +64,31 @@ public class Controller {
             currentRow = 0;
         }
     }
+    
+    public void setPlayerStatus(String status) {
+        playerStatus = status;
+    }
+    
+    public String getTrackInfo(int row) {
+        return masterpiece.getTrackContainer(row).toString();
+    }
 
     public String getInfo() {
         if (masterpiece != null) {
             String info = "mestariteos: " + masterpiece.getName() + "\t"
                     + "bpm: " + currentBpm + "\t"
-                    + "rivejä: " + masterpiece.size() + "\t";
-            if (playing) {
-                info += "soitetaan (" + (currentRow + 1) + "): " + masterpiece.getTrackContainer(currentRow);
-            } else {
-                info += "pysäytetty";
-            }
+                    + "rivejä: " + masterpiece.size() + "\t"
+                    + playerStatus;
             return info;
         }
-        return "";
+        return "...";
     }
 
     public void setNewMasterpiece(int rows, int tracks) {
         masterpiece = masterpieceDao.getNewMasterpiece(rows, tracks);
         currentBpm = masterpiece.getBpm();
         currentRow = 0;
-        timer.setBpm(currentBpm);
+        updateInfoBar();
     }
 
     public void randomMasterpiece() {
@@ -180,7 +160,7 @@ public class Controller {
         return true;
     }
 
-    public ArrayList<String[]> getMasterpieceTrackInfo() {
+    public ArrayList<String[]> getMasterpieceInfo() {
         if (masterpiece == null) {
             return null;
         }
