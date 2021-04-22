@@ -20,11 +20,10 @@ public class TrackerService {
     private Label infoLabel;
 
     public TrackerService(MasterpieceDao masterpieceDao) {
-        this.masterpieceDao = masterpieceDao;        
+        this.masterpieceDao = masterpieceDao;
         this.playerStatus = "pysäytetty";
-        this.currentRow = 0;        
+        this.currentRow = 0;
     }
-
 
     public int getNextRow() {
         return nextRow;
@@ -35,9 +34,9 @@ public class TrackerService {
     }
 
     public void setBpm(int bpm) {
-        currentBpm = bpm;        
+        currentBpm = bpm;
     }
-    
+
     public int getCurrentBpm() {
         return currentBpm;
     }
@@ -53,7 +52,7 @@ public class TrackerService {
     public int getCurrentRow() {
         return currentRow;
     }
-    
+
     public void setCurrentRow(int row) {
         currentRow = row;
     }
@@ -65,23 +64,25 @@ public class TrackerService {
         }
     }
     
+    public void addNewRow() {
+        masterpiece.addRow(4);
+    }
+    
+    public void addNewRow(int numberOfRows) {
+        for (int i = 0; i < numberOfRows; i++) {
+            addNewRow();
+        }
+    }
+
     public void setPlayerStatus(String status) {
         playerStatus = status;
     }
-    
-    public String getTrackInfo(int row) {
-        return masterpiece.getTrackContainer(row).toString();
-    }
 
-    public String getInfo() {
-        if (masterpiece != null) {
-            String info = "mestariteos: " + masterpiece.getName() + "\t"
-                    + "bpm: " + currentBpm + "\t"
-                    + "rivejä: " + masterpiece.size() + "\t"
-                    + playerStatus;
-            return info;
+    public String getTrackInfo(int row) {
+        if (!masterpiece.isEmpty()) {
+        return masterpiece.getTrackContainer(row).toString();
         }
-        return "...";
+        return "";
     }
 
     public void setNewMasterpiece(int rows, int tracks) {
@@ -107,7 +108,7 @@ public class TrackerService {
         InstrumentObject kattila = new InstrumentObject("kattila", audioKattila);
         InstrumentObject kansi = new InstrumentObject("kansi", audioKansi);
         InstrumentObject kansi2 = new InstrumentObject("kansi2", audioKansi2);
-
+        /*
         InstrumentObject kitaraA = new InstrumentObject("(kitara) a", audioKitaraA);
         InstrumentObject kitaraC = new InstrumentObject("(kitara) c", audioKitaraC);
         InstrumentObject kitaraE2 = new InstrumentObject("(kitara) e2", audioKitaraE2);
@@ -115,32 +116,36 @@ public class TrackerService {
         InstrumentObject kitaraA2 = new InstrumentObject("(kitara) a2", audioKitaraA2);
         InstrumentObject kitaraC2 = new InstrumentObject("(kitara) c2", audioKitaraC2);
         InstrumentObject kitaraE3 = new InstrumentObject("(kitara) e3", audioKitaraE3);
-
+         */
         Random r = new Random();
         for (int row = 0; row < masterpiece.size(); row++) {
             if (row > 0) {
                 for (int track = 0; track < masterpiece.getTrackContainer(row).size(); track++) {
                     int n = r.nextInt(100);
+
                     if (n < 1) {
                         addObject(row, track, kattila);
                     } else if (n < 2) {
                         addObject(row, track, kansi);
                     } else if (n < 3) {
-                        addObject(row, track, kansi2);
+                        //addObject(row, track, kansi2);
                     } else if (n < 10) {
-                        addObject(row, track, kitaraA);
+                        addObject(row, track, new InstrumentObject("skitta A", audioKitaraA));
                     } else if (n < 17) {
-                        addObject(row, track, kitaraE2);
+                        addObject(row, track, new InstrumentObject("skitta E2", audioKitaraE2));
                     } else if (n < 21) {
-                        addObject(row, track, kitaraA2);
+                        addObject(row, track, new InstrumentObject("skitta A2", audioKitaraA2));
                     } else if (n < 24) {
-                        addObject(row, track, kitaraC2);
+                        addObject(row, track, new InstrumentObject("skitta C2", audioKitaraC2));
                     } else if (n < 26) {
-                        addObject(row, track, kitaraE3);
+                        addObject(row, track, new InstrumentObject("skitta E3", audioKitaraE3));
                     } else if (n < 30) {
-                        addObject(row, track, kitaraC);
+                        addObject(row, track, new InstrumentObject("skitta C", audioKitaraC));
                     } else if (n < 34) {
-                        addObject(row, track, kitaraG2);
+                        addObject(row, track, new InstrumentObject("skitta G2", audioKitaraG2));
+                    } else if (n < 36) {
+                        int bpm = r.nextInt(300) + 100;
+                        addObject(row, track, new BpmObject(this, bpm));
                     }
                 }
             }
@@ -173,5 +178,20 @@ public class TrackerService {
             trackInfo.add(objectId);
         }
         return trackInfo;
+    }
+
+    public Masterpiece getMasterpiece() {
+        return masterpiece;
+    }
+    
+    public String getInfo() {
+        if (masterpiece != null) {
+            String info = "mestariteos: " + masterpiece.getName() + "\t"
+                    + "bpm: " + currentBpm + "\t"
+                    + "rivejä: " + masterpiece.size() + "\t"
+                    + playerStatus;
+            return info;
+        }
+        return "...";
     }
 }

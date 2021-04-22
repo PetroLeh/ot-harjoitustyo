@@ -1,6 +1,8 @@
 package trackerapp.dao;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.util.HashMap;
 import trackerapp.domain.Masterpiece;
 
 /**
@@ -9,19 +11,46 @@ import trackerapp.domain.Masterpiece;
  */
 public class FileMasterpieceDao implements MasterpieceDao {
 
+    private File file;
+
+    public FileMasterpieceDao() {
+        this.file = null;
+    }
+
+    public void setFile(File file) {
+        this.file = file;
+    }
+
+    public File getFile() {
+        return this.file;
+    }
+
     public Masterpiece getNewMasterpiece(int rows, int tracks) {
         Masterpiece newMasterpiece = new Masterpiece("nimetön", 180);
-        for (int row = 0; row <= rows; row++) {
+        for (int row = 0; row < rows; row++) {
             newMasterpiece.addRow(tracks);
         }
         return newMasterpiece;
     }
 
-    public Masterpiece getMasterpieceFromFile(File file) {
+    @Override
+    public Masterpiece loadMasterpiece() {
         return null;
     }
 
-    public boolean saveMasterpieceToFile(File file) {
-        return false;
+    @Override
+    public boolean saveMasterpiece(Masterpiece masterpiece) {
+        if (file == null || masterpiece == null) {
+            return false;
+        }
+        try {
+            FileWriter writer = new FileWriter(file);
+            for (int i = 0; i < masterpiece.size(); i++) {
+            }
+        } catch (Exception e) {
+            
+            return false;
+        }
+        return true;
     }
 }

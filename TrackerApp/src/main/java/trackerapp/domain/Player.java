@@ -35,7 +35,7 @@ public class Player extends AnimationTimer {
                 int currentRow = tracker.getCurrentRow();
                 timer.setBpm(tracker.getCurrentBpm());
                 tracker.activateTrackContainer(currentRow);
-                tracker.setPlayerStatus("toistetaan (" + currentRow + "): " + tracker.getTrackInfo(currentRow));
+                tracker.setPlayerStatus("toistetaan (" + (currentRow + 1) + "): " + tracker.getTrackInfo(currentRow));
                 tracker.updateInfoBar();
                 tracker.nextRow();
             }
@@ -53,7 +53,7 @@ public class Player extends AnimationTimer {
 
     public void pause() {
         int currentRow = tracker.getCurrentRow();
-        tracker.setPlayerStatus("pause (" + currentRow + "): " + tracker.getTrackInfo(currentRow));
+        tracker.setPlayerStatus("pause (" + (currentRow + 1) + "): " + tracker.getTrackInfo(currentRow));
         tracker.updateInfoBar();
         pause = !pause;
     }

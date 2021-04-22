@@ -7,7 +7,7 @@ package trackerapp.domain;
 public class TrackContainer {
 
     private TrackObject[] objects;
-
+        
     public TrackContainer(int tracks) {
         objects = new TrackObject[tracks];
     }
@@ -44,9 +44,18 @@ public class TrackContainer {
             if (objects[track] != null) {
                 return objects[track].getId();
             }
-            return " ----- ";
+            return ObjectType.EMPTY.toString();
         }
         return "";
+    }
+
+    public String getAllObjectIds() {
+        String ids = "";
+        for (int i = 0; i < objects.length - 1; i++) {
+            ids = ids + objects[i].getId() + ";";
+        }
+        ids += objects[objects.length - 1].getId();
+        return ids;
     }
 
     public int size() {
@@ -57,7 +66,7 @@ public class TrackContainer {
         String containerInfo = "";
         for (TrackObject object : objects) {
             if (object == null) {
-                containerInfo += " ----- ";
+                containerInfo += ObjectType.EMPTY;
             } else {
                 containerInfo += object.getId() + " ";
             }

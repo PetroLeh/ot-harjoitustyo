@@ -59,5 +59,8 @@ public class Masterpiece {
     public int size() {
         return rows.size();
     }
-
+    
+    public boolean isEmpty() {
+        return size() == 0;
+    }
 }
