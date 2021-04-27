@@ -9,6 +9,8 @@ import trackerapp.domain.Masterpiece;
 public interface MasterpieceDao {
 
     Masterpiece getNewMasterpiece(int rows, int tracks);
+
     Masterpiece loadMasterpiece();
+
     boolean saveMasterpiece(Masterpiece masterpiece);
 }

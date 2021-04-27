@@ -7,7 +7,7 @@ package trackerapp.domain;
 public class TrackContainer {
 
     private TrackObject[] objects;
-        
+
     public TrackContainer(int tracks) {
         objects = new TrackObject[tracks];
     }

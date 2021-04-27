@@ -45,6 +45,12 @@ public class Masterpiece {
         rows.add(new TrackContainer(tracks));
     }
 
+    public void removeRow() {
+        if (size() > 0) {
+            rows.remove(size() - 1);
+        }
+    }
+
     public TrackContainer getTrackContainer(int row) {
         if (row >= 0 && row < rows.size()) {
             return rows.get(row);
@@ -59,7 +65,7 @@ public class Masterpiece {
     public int size() {
         return rows.size();
     }
-    
+
     public boolean isEmpty() {
         return size() == 0;
     }

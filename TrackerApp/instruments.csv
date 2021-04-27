@@ -1,0 +1,38 @@
+@kitara;audio/guitar/
+e;testi_kitara_e.wav
+f;testi_kitara_f.wav
+f#;testi_kitara_fis.wav
+g;testi_kitara_g.wav
+g#;testi_kitara_gis.wav
+a;testi_kitara_a.wav
+a#;testi_kitara_as.wav
+h;testi_kitara_h.wav
+c;testi_kitara_c.wav
+c#;testi_kitara_cis.wav
+d;testi_kitara_d.wav
+d#;testi_kitara_dis.wav
+e2;testi_kitara_e2.wav
+f2;testi_kitara_f2.wav
+f#2;testi_kitara_fis2.wav
+g2;testi_kitara_g2.wav
+g#2;testi_kitara_gis2.wav
+a2;testi_kitara_a2.wav
+a#2;testi_kitara_as2.wav
+h2;testi_kitara_h2.wav
+c2;testi_kitara_c2.wav
+c#2;testi_kitara_cis2.wav
+d2;testi_kitara_d2.wav
+d#2;testi_kitara_dis2.wav
+e3;testi_kitara_e3.wav
+f3;testi_kitara_f3.wav
+f#3;testi_kitara_fis3.wav
+g3;testi_kitara_g3.wav
+g#3;testi_kitara_gis3.wav
+
+@rummut;audio/drums/
+bass tom;bass_tom.wav
+cymbale;cymbale.wav
+cymbale2;cymbale2.wav
+hi hat;hi_hat.wav
+snare;snare_drum.wav
+water drum;water_drum.wav

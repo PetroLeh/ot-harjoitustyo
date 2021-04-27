@@ -15,12 +15,12 @@ public class BpmObject implements TrackObject {
     }
 
     public BpmObject(TrackerService tracker, int bpm) {
-        this(tracker, bpm, "(bpm): ");       
+        this(tracker, bpm, "(bpm): ");
     }
-    
-        public BpmObject(TrackerService tracker, int bpm, String id) {
+
+    public BpmObject(TrackerService tracker, int bpm, String id) {
         this.tracker = tracker;
-        this.bpm = bpm;   
+        this.bpm = bpm;
         this.id = id;
     }
 

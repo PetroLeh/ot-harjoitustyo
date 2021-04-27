@@ -10,9 +10,25 @@ Voit joko aloittaa uuden mestariteoksen luomisen tai avata olemassa
 olevan mestariteoksen muokattavaksi, jos sellaisia on jo luotu. Paitsi,
 että vielä et voi tehdä juuri mitään :).
 
-Tähän versioon on lisätty automaattinen kappaleen luonti, jotta on jotain
-mitä kuunnella miettiessä syntyjä syviä. Sen ei ole tarkoituskaan kuulostaa
-hyvältä...
+Edellisessä versiossa ollut automaattinen kappaleen luonti on nyt
+poistettu ja sen sijaan on mahdollista tehdä itsekin jo jotain.
+
+Teokset koostuvat objektiriveistä, joissa kussakin on (toistaiseksi kiinteät) kuusi
+raitaa. Soitettaessa teosta ohjelma käy rivejä läpi ja aktivoi kulloisellakin rivillä
+olevat objektit, eli soittaa esim. jonkun tietyn äänen/äänet. Rivejä voi lisätä ja poistaa.
+Oikealla olevasta instrumenttikirjastosta tulee valita instrumentti ja ääni, jonka
+haluaa lisätä ja sen jälkeen klikutella menemään keskialueella oleviin objektikenttiin.
+
+Instrumenttivalikoima on toistaiseksi suppea ja heikkolaatuinen (kitara on itse
+pikaisesti äänitetty, lyömäsoittimet on ladattu osoitteesta bigsoundbank.com), samoin
+käyttöliittymän työkalupakki on vielä kömpelö; esimerkiksi instrumenttikirjastossa äänet
+ovat epäloogisessa järjestyksessä. Suurimmaksi ongelmaksi näyttää
+muodostuvan äänenkäsittely minkä joku voisi ajatella olevan aika tärkeää
+tällaisessa musisointiohjelmassa(?). Käytän JavaFX:n AudioClip-luokkaa 
+mikä ei ole tähän tarkoitukseen ihan optimaalinen, mutta luulen, että aika
+ei riitä syvempään aiheeseen perehtymiseen. Tästä tullee siis projektin
+aikataulun puitteissa kenties jonkinlainen rautalankamalli, jota saatan
+jatkaa myöhemmin.
 
 Palaillaan!
 

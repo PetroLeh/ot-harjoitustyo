@@ -1,6 +1,5 @@
 package trackerapp.ui;
 
-import java.io.File;
 import trackerapp.dao.*;
 import trackerapp.domain.TrackerService;
 import trackerapp.domain.Player;
@@ -18,6 +17,8 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Separator;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToolBar;
+import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -25,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import trackerapp.domain.InstrumentLibrary;
 
 /**
  *
@@ -32,13 +34,14 @@ import javafx.stage.Stage;
  */
 public class TrackerAppUi extends Application {
 
-    private String title, welcomeHeader, welcomeText;
+    private String title, welcomeHeader, welcomeText, styleSheet;
 
     private Scene welcomeScene, settingsScene, mainScene;
 
     private FileChooser fileChooser;
     private TextFileDao filereader = new TextFileDao();
     private FileMasterpieceDao masterpieceDao = new FileMasterpieceDao();
+    private InstrumentLibrary instrumentLibrary;
 
     private TrackerService tracker;
     private Player player;
@@ -50,6 +53,7 @@ public class TrackerAppUi extends Application {
         Properties properties = new Properties();
         properties.load(new FileInputStream("config.properties"));
 
+        styleSheet = properties.getProperty("styleSheet", "defaultStyleSheet.css");
         title = properties.getProperty("title", "Masterpiece Tracker");
         welcomeHeader = properties.getProperty("welcomeHeader", "Hola!");
         String welcomeFile = properties.getProperty("welcomeTextFile");
@@ -59,13 +63,17 @@ public class TrackerAppUi extends Application {
         fileChooser.setTitle(title + " - avaa");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("masterpiece files", "*.mp"));
 
-        tracker = new TrackerService(masterpieceDao);
+        instrumentLibrary = new InstrumentLibrary("instruments.csv");
+
+        tracker = new TrackerService(masterpieceDao, instrumentLibrary);
         player = new Player(tracker);
         masterpieceGridFont = new Font(15);
+
     }
 
     @Override
     public void start(Stage stage) {
+
         setMainScene(stage);
         setWelcomeScene(stage);
 
@@ -76,7 +84,7 @@ public class TrackerAppUi extends Application {
 
     public void setMainScene(Stage stage) {
         BorderPane mainPane = new BorderPane();
-        ToolBar toolBar = new ToolBar();
+        ToolBar playerBar = new ToolBar();
         ScrollPane masterpieceView = new ScrollPane();
         GridPane masterpieceGrid = new GridPane();
         Button playButton = new Button("play");
@@ -84,19 +92,59 @@ public class TrackerAppUi extends Application {
         Button pauseButton = new Button("pause");
         Button bpmButton = new Button("aseta");
         Button addNewRowButton = new Button("lisää rivi");
-        Button randomMasterpieceButton = new Button("satunnainen mestariteos");
+        Button removeRowButton = new Button("poista rivi");
+        Button newEmptyMasterpieceButton = new Button("uusi mestariteos");
         Button saveButton = new Button("tallenna");
 
+        TreeView objectTree = new TreeView();
+        TreeItem items = new TreeItem("items");
+        TreeItem instruments = new TreeItem("instrumentit");
+        TreeItem controls = new TreeItem("kontrollit");
+
+        items.getChildren().addAll(instruments, controls);
+        Label currentInstrument = new Label("Valittuna:\nei mitään");
+
+        objectTree.setRoot(items);
+        objectTree.setShowRoot(false);
+
+        instrumentLibrary.getInstruments().forEach(instrument -> {
+            TreeItem instrumentItem = new TreeItem(instrument);
+            instrumentLibrary.getInstrumentIdList(instrument).forEach(id -> {
+                TreeItem item = new TreeItem(id);
+                Button selectItemButton = new Button(id);
+                selectItemButton.setPrefWidth(100);
+                selectItemButton.setOnAction(e -> {
+                    tracker.setSelectedObject(instrument, id);
+                    currentInstrument.setText("Valittuna:\n" + instrument + ": " + id);
+                });
+                item.setGraphic(selectItemButton);
+                instrumentItem.getChildren().add(item);
+            });
+            instruments.getChildren().add(instrumentItem);
+        });
+
+        VBox toolBox = new VBox(10);
+        toolBox.getChildren().add(objectTree);
+
+        Button tyhja = new Button("tyhjä");
+        tyhja.setOnAction(e -> {
+            currentInstrument.setText("Valittuna:\ntyhjä");
+            tracker.setSelectedObject(null, null);
+        });
+
+        toolBox.getChildren().addAll(new Separator(), tyhja, new Separator(), currentInstrument);
+        toolBox.setPadding(new Insets(20, 20, 20, 20));
+
         HBox infoBar = new HBox(30);
-        Label infoLabel = new Label(tracker.getInfo());
+        Label infoLabel = new Label("");
         TextField bpmField = new TextField();
         bpmField.setPrefWidth(40);
         bpmField.setText("180");
 
-        toolBar.getItems().addAll(playButton, stopButton, pauseButton, new Separator(),
+        playerBar.getItems().addAll(playButton, stopButton, pauseButton, new Separator(),
                 new Label("iskua minuutissa: "), bpmField, bpmButton, new Separator(),
-                addNewRowButton, new Separator(),
-                randomMasterpieceButton, new Separator(), saveButton);
+                addNewRowButton, removeRowButton, new Separator(),
+                newEmptyMasterpieceButton, new Separator(), saveButton);
         infoBar.getChildren().add(infoLabel);
         infoLabel.setFont(new Font(20));
         tracker.setInfoBar(infoLabel);
@@ -134,9 +182,13 @@ public class TrackerAppUi extends Application {
             tracker.updateInfoBar();
             updateMasterpieceGrid(masterpieceGrid);
         });
-        randomMasterpieceButton.setOnAction(e -> {
-            tracker.setNewMasterpiece(119, 4);
-            tracker.randomMasterpiece();
+        removeRowButton.setOnAction(e -> {
+            tracker.removeRow();
+            tracker.updateInfoBar();
+            updateMasterpieceGrid(masterpieceGrid);
+        });
+        newEmptyMasterpieceButton.setOnAction(e -> {
+            tracker.setNewMasterpiece(119, 6);
             updateMasterpieceGrid(masterpieceGrid);
         });
         saveButton.setOnAction(e -> {
@@ -150,12 +202,15 @@ public class TrackerAppUi extends Application {
         masterpieceGrid.setHgap(50);
         masterpieceGrid.setVgap(5);
         updateMasterpieceGrid(masterpieceGrid);
+        ScrollPane instrumentView = new ScrollPane();
 
-        mainPane.setTop(toolBar);
+        instrumentView.setContent(toolBox);
+        mainPane.setTop(playerBar);
         mainPane.setCenter(masterpieceView);
+        mainPane.setRight(instrumentView);
         mainPane.setBottom(infoBar);
         mainPane.setPadding(new Insets(30, 30, 30, 30));
-        mainScene = new Scene(mainPane, 1100, 600);
+        mainScene = new Scene(mainPane);
     }
 
     private void setWelcomeScene(Stage stage) {
@@ -181,6 +236,7 @@ public class TrackerAppUi extends Application {
         newMasterpieceButton.setOnAction(e -> {
             tracker.setNewMasterpiece(0, 4);
             stage.setScene(mainScene);
+            stage.setMaximized(true);
         });
         openMasterpieceButton.setOnAction(e -> {
             showMessage("lataa", "Tämä ei vielä ole mahdollista.");
@@ -205,6 +261,7 @@ public class TrackerAppUi extends Application {
         Scene messageScene = new Scene(pane, 200, 100);
         messageStage.setScene(messageScene);
         messageStage.setTitle(messageTitle);
+        messageStage.setAlwaysOnTop(true);
         messageStage.show();
     }
 
@@ -218,14 +275,18 @@ public class TrackerAppUi extends Application {
                 rowInfo.setFont(masterpieceGridFont);
                 masterpieceGrid.add(rowInfo, 0, row);
                 for (int track = 0; track < objectId.length; track++) {
-                    Button objectLabel = new Button(objectId[track]);
-                    objectLabel.setFont(masterpieceGridFont);
+                    Button objectButton = new Button(objectId[track]);
+                    objectButton.setFont(masterpieceGridFont);
+                    objectButton.setPrefWidth(150);
                     String id = row + "," + track;
-                    objectLabel.setId(id);
-                    objectLabel.setOnAction(e -> {
-                        System.out.println("napitettu: " + id);
+                    objectButton.setId(id);
+                    int r = row;
+                    int t = track;
+                    objectButton.setOnAction(e -> {
+                        tracker.addObject(r, t, tracker.getSelectedObject());
+                        objectButton.setText(tracker.getMasterpiece().getTrackContainer(r).getObjectId(t));
                     });
-                    masterpieceGrid.add(objectLabel, track + 1, row);
+                    masterpieceGrid.add(objectButton, track + 1, row);
                 }
                 row++;
             }

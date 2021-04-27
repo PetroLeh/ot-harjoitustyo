@@ -1,6 +1,3 @@
-/*
- * Petro Lehtonen
- */
 package trackerapp.domain;
 
 import javafx.animation.AnimationTimer;

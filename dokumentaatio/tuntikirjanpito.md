@@ -12,4 +12,8 @@
 | 20.4. | 3    | käyttöliittymän ja sovelluslogiikan koodausta |
 |       | 2    | säätämistä ja veivaamista |
 |       | 2    | checkstyle, luokkakaavio, dokumentaation päivitys |
-| yht   | 22   | | 
+| 21.4. | 3    | refaktorointia |
+| 22.4. | 4    | toiminnallisuuden koodailua |
+| 26.4. | 3	   | suunnittelua, css:n kanssa painimista |
+| 27.4. | 6    | lisää toiminnallisuuksia, refaktorointia |
+| yht   | 38   | | 

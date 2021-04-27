@@ -2,7 +2,6 @@ package trackerapp.dao;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.HashMap;
 import trackerapp.domain.Masterpiece;
 
 /**
@@ -48,7 +47,7 @@ public class FileMasterpieceDao implements MasterpieceDao {
             for (int i = 0; i < masterpiece.size(); i++) {
             }
         } catch (Exception e) {
-            
+
             return false;
         }
         return true;
