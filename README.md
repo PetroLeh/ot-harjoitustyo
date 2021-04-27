@@ -26,6 +26,10 @@ mvn package
 Ohjelman saa käynnistettyä komentoriviltä ohjelman juurihakemistosta (jossa tiedosto pom.xml sijaitsee) komennolla
 
 ```
+java -jar TrackerApp-1.0-SNAPSHOT.jar
+```
+tai
+```
 java -jar target/TrackerApp-1.0-SNAPSHOT.jar
 ```
 
