@@ -23,6 +23,13 @@ Suoritettavan jarin saa generoitua komennolla
 ```
 mvn package
 ```
+
+(alustavan) JavaDocin generointi komennolla
+
+```
+mvn javadoc:javadoc
+```
+
 Ohjelman saa käynnistettyä komentoriviltä ohjelman juurihakemistosta (jossa tiedosto pom.xml sijaitsee) komennolla
 
 ```
