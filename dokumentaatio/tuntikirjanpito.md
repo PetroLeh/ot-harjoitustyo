@@ -16,4 +16,6 @@
 | 22.4. | 4    | toiminnallisuuden koodailua |
 | 26.4. | 3	   | suunnittelua, css:n kanssa painimista |
 | 27.4. | 6    | lisää toiminnallisuuksia, refaktorointia |
-| yht   | 38   | | 
+| 3.5.  | 4    | bugien korjausta, refaktorointia |
+| 4.5.  | 6    | testien lisäystä, alustava javaDoc |
+| yht   | 48   | | 
