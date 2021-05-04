@@ -12,5 +12,5 @@ public interface MasterpieceDao {
 
     Masterpiece loadMasterpiece();
 
-    boolean saveMasterpiece(Masterpiece masterpiece);
+    boolean saveMasterpiece(Masterpiece masterpiece, InstrumentLibraryDao library);
 }

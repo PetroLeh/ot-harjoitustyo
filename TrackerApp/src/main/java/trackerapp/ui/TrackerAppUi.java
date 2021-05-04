@@ -1,5 +1,6 @@
 package trackerapp.ui;
 
+import java.io.File;
 import trackerapp.dao.*;
 import trackerapp.domain.TrackerService;
 import trackerapp.domain.Player;
@@ -26,7 +27,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import trackerapp.domain.InstrumentLibrary;
+import trackerapp.domain.Chord;
 
 /**
  *
@@ -35,40 +36,32 @@ import trackerapp.domain.InstrumentLibrary;
 public class TrackerAppUi extends Application {
 
     private String title, welcomeHeader, welcomeText, styleSheet;
-
     private Scene welcomeScene, settingsScene, mainScene;
-
     private FileChooser fileChooser;
     private TextFileDao filereader = new TextFileDao();
     private FileMasterpieceDao masterpieceDao = new FileMasterpieceDao();
-    private InstrumentLibrary instrumentLibrary;
-
+    private FileInstrumentLibraryDao instrumentLibrary;
     private TrackerService tracker;
     private Player player;
-
     private Font masterpieceGridFont;
+    private GridPane masterpieceGrid;
 
     @Override
     public void init() throws Exception {
         Properties properties = new Properties();
         properties.load(new FileInputStream("config.properties"));
-
         styleSheet = properties.getProperty("styleSheet", "defaultStyleSheet.css");
         title = properties.getProperty("title", "Masterpiece Tracker");
         welcomeHeader = properties.getProperty("welcomeHeader", "Hola!");
         String welcomeFile = properties.getProperty("welcomeTextFile");
         welcomeText = filereader.getAsString(welcomeFile);
-
         fileChooser = new FileChooser();
         fileChooser.setTitle(title + " - avaa");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("masterpiece files", "*.mp"));
-
-        instrumentLibrary = new InstrumentLibrary("instruments.csv");
-
+        instrumentLibrary = new FileInstrumentLibraryDao("instruments.csv");
         tracker = new TrackerService(masterpieceDao, instrumentLibrary);
         player = new Player(tracker);
         masterpieceGridFont = new Font(15);
-
     }
 
     @Override
@@ -86,15 +79,16 @@ public class TrackerAppUi extends Application {
         BorderPane mainPane = new BorderPane();
         ToolBar playerBar = new ToolBar();
         ScrollPane masterpieceView = new ScrollPane();
-        GridPane masterpieceGrid = new GridPane();
+        masterpieceGrid = new GridPane();
         Button playButton = new Button("play");
         Button stopButton = new Button("stop");
         Button pauseButton = new Button("pause");
         Button bpmButton = new Button("aseta");
         Button addNewRowButton = new Button("lisää rivi");
         Button removeRowButton = new Button("poista rivi");
-        Button newEmptyMasterpieceButton = new Button("uusi mestariteos");
+        Button newMasterpieceButton = new Button("uusi mestariteos");
         Button saveButton = new Button("tallenna");
+        Button openButton = new Button("avaa");
 
         TreeView objectTree = new TreeView();
         TreeItem items = new TreeItem("items");
@@ -126,13 +120,13 @@ public class TrackerAppUi extends Application {
         VBox toolBox = new VBox(10);
         toolBox.getChildren().add(objectTree);
 
-        Button tyhja = new Button("tyhjä");
-        tyhja.setOnAction(e -> {
+        Button emptySelectionButton = new Button("tyhjä");
+        emptySelectionButton.setOnAction(e -> {
             currentInstrument.setText("Valittuna:\ntyhjä");
             tracker.setSelectedObject(null, null);
         });
 
-        toolBox.getChildren().addAll(new Separator(), tyhja, new Separator(), currentInstrument);
+        toolBox.getChildren().addAll(new Separator(), emptySelectionButton, new Separator(), currentInstrument);
         toolBox.setPadding(new Insets(20, 20, 20, 20));
 
         HBox infoBar = new HBox(30);
@@ -143,8 +137,7 @@ public class TrackerAppUi extends Application {
 
         playerBar.getItems().addAll(playButton, stopButton, pauseButton, new Separator(),
                 new Label("iskua minuutissa: "), bpmField, bpmButton, new Separator(),
-                addNewRowButton, removeRowButton, new Separator(),
-                newEmptyMasterpieceButton, new Separator(), saveButton);
+                addNewRowButton, removeRowButton, new Separator(), saveButton, openButton, new Separator(), newMasterpieceButton);
         infoBar.getChildren().add(infoLabel);
         infoLabel.setFont(new Font(20));
         tracker.setInfoBar(infoLabel);
@@ -169,6 +162,7 @@ public class TrackerAppUi extends Application {
             try {
                 int bpm = Integer.valueOf(bpmString);
                 if (bpm > 0 && bpm <= 600) {
+                    tracker.getMasterpiece().setBpm(bpm);
                     tracker.setBpm(bpm);
                 } else {
                     showMessage("bpm", "syötä luku väliltä 1-600");
@@ -180,20 +174,41 @@ public class TrackerAppUi extends Application {
         addNewRowButton.setOnAction(e -> {
             tracker.addNewRow();
             tracker.updateInfoBar();
-            updateMasterpieceGrid(masterpieceGrid);
+            updateMasterpieceGrid();
         });
         removeRowButton.setOnAction(e -> {
             tracker.removeRow();
             tracker.updateInfoBar();
-            updateMasterpieceGrid(masterpieceGrid);
+            updateMasterpieceGrid();
         });
-        newEmptyMasterpieceButton.setOnAction(e -> {
-            tracker.setNewMasterpiece(119, 6);
-            updateMasterpieceGrid(masterpieceGrid);
+        newMasterpieceButton.setOnAction(e -> {
+            tracker.setNewMasterpiece(0, 6);
+            updateMasterpieceGrid();
         });
         saveButton.setOnAction(e -> {
-            //masterpieceDao.setFile(fileChooser.showSaveDialog(stage));
-            showMessage("tallenna", "Tämä ei ole vielä mahdollista");
+            player.stop();
+            fileChooser.setInitialFileName(tracker.getMasterpiece().getName() + ".mp");
+            File file = fileChooser.showSaveDialog(stage);
+            String name = file.getName();
+            if (name.endsWith(".mp")) {
+                name = name.replace(".mp", "");
+            }
+            tracker.getMasterpiece().setName(name);
+            tracker.updateInfoBar();
+            masterpieceDao.setFile(file);
+            masterpieceDao.saveMasterpiece(tracker.getMasterpiece(), instrumentLibrary);
+        });
+        openButton.setOnAction(e -> {
+            File dir = new File("pieces");
+            if (dir.exists()) {
+                fileChooser.setInitialDirectory(dir);
+            }
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                masterpieceDao.setFile(file);
+                tracker.setMasterpiece(masterpieceDao.loadMasterpiece());
+                updateMasterpieceGrid();
+            }
         });
 
         masterpieceView.setPadding(new Insets(10, 10, 10, 10));
@@ -201,7 +216,7 @@ public class TrackerAppUi extends Application {
         masterpieceGrid.setPadding(new Insets(30, 30, 30, 30));
         masterpieceGrid.setHgap(50);
         masterpieceGrid.setVgap(5);
-        updateMasterpieceGrid(masterpieceGrid);
+        updateMasterpieceGrid();
         ScrollPane instrumentView = new ScrollPane();
 
         instrumentView.setContent(toolBox);
@@ -210,7 +225,8 @@ public class TrackerAppUi extends Application {
         mainPane.setRight(instrumentView);
         mainPane.setBottom(infoBar);
         mainPane.setPadding(new Insets(30, 30, 30, 30));
-        mainScene = new Scene(mainPane);
+
+        mainScene = new Scene(mainPane, 1200, 800);
     }
 
     private void setWelcomeScene(Stage stage) {
@@ -234,13 +250,22 @@ public class TrackerAppUi extends Application {
         welcomePane.getChildren().addAll(welcomeLabel, separator, welcomeTextPane, welcomeButtons);
 
         newMasterpieceButton.setOnAction(e -> {
-            tracker.setNewMasterpiece(0, 4);
+            tracker.setNewMasterpiece(0, 6);
             stage.setScene(mainScene);
             stage.setMaximized(true);
         });
         openMasterpieceButton.setOnAction(e -> {
-            showMessage("lataa", "Tämä ei vielä ole mahdollista.");
-            //File file = fileChooser.showOpenDialog(stage);
+            File dir = new File("pieces");
+            if (dir.exists()) {
+                fileChooser.setInitialDirectory(dir);
+            }
+            File file = fileChooser.showOpenDialog(stage);
+            if (file != null) {
+                masterpieceDao.setFile(file);
+                tracker.setMasterpiece(masterpieceDao.loadMasterpiece());
+                stage.setScene(mainScene);
+                updateMasterpieceGrid();
+            }
         });
         closeButton.setOnAction(e -> {
             stage.close();
@@ -265,7 +290,7 @@ public class TrackerAppUi extends Application {
         messageStage.show();
     }
 
-    private void updateMasterpieceGrid(GridPane masterpieceGrid) {
+    private void updateMasterpieceGrid() {
         masterpieceGrid.getChildren().clear();
         ArrayList<String[]> trackInfo = tracker.getMasterpieceInfo();
         if (trackInfo != null) {
@@ -280,11 +305,11 @@ public class TrackerAppUi extends Application {
                     objectButton.setPrefWidth(150);
                     String id = row + "," + track;
                     objectButton.setId(id);
-                    int r = row;
-                    int t = track;
+                    int onRow = row;
+                    int onTrack = track;
                     objectButton.setOnAction(e -> {
-                        tracker.addObject(r, t, tracker.getSelectedObject());
-                        objectButton.setText(tracker.getMasterpiece().getTrackContainer(r).getObjectId(t));
+                        tracker.addObject(onRow, onTrack, tracker.getSelectedObject());
+                        objectButton.setText(tracker.getMasterpiece().getTrackContainer(onRow).getObjectId(onTrack));
                     });
                     masterpieceGrid.add(objectButton, track + 1, row);
                 }

@@ -8,7 +8,7 @@ import javafx.scene.media.AudioClip;
  */
 public class InstrumentObject implements TrackObject {
 
-    private String id;
+    private String id, instrument, plainId;
     private AudioClip audio;
 
     public InstrumentObject(String id, AudioClip audio) {
@@ -18,7 +18,6 @@ public class InstrumentObject implements TrackObject {
 
     @Override
     public void activate() {
-        System.out.println("aktivoitu: " + getId());
         audio.play();
     }
 
@@ -26,4 +25,10 @@ public class InstrumentObject implements TrackObject {
     public String getId() {
         return id;
     }
+    
+    @Override
+    public String toString() {
+        return id;
+    }
+
 }

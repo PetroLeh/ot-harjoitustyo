@@ -29,10 +29,15 @@ f#3;testi_kitara_fis3.wav
 g3;testi_kitara_g3.wav
 g#3;testi_kitara_gis3.wav
 
-@rummut;audio/drums/
+@kilkuttimet;audio/percussion/
 bass tom;bass_tom.wav
 cymbale;cymbale.wav
 cymbale2;cymbale2.wav
 hi hat;hi_hat.wav
 snare;snare_drum.wav
 water drum;water_drum.wav
+agogo;agogo.wav
+block;block.wav
+hi hat 2;hi_hat2.wav
+snare 2;snare_drum2.wav
+

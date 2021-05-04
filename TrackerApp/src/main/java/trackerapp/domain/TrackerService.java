@@ -1,7 +1,9 @@
 package trackerapp.domain;
 
+import java.io.File;
 import java.util.ArrayList;
 import javafx.scene.control.Label;
+import trackerapp.dao.InstrumentLibraryDao;
 import trackerapp.dao.MasterpieceDao;
 
 /**
@@ -13,13 +15,13 @@ public class TrackerService {
     private Masterpiece masterpiece;
     private MasterpieceDao masterpieceDao;
 
-    private int currentBpm, masterVolume, currentRow, nextRow;
+    private int currentBpm, currentRow, nextRow;
     private String playerStatus;
     private Label infoLabel;
     private TrackObject selectedObject;
-    private InstrumentLibrary instrumentLibrary;
+    private InstrumentLibraryDao instrumentLibrary;
 
-    public TrackerService(MasterpieceDao masterpieceDao, InstrumentLibrary instrumentLibrary) {
+    public TrackerService(MasterpieceDao masterpieceDao, InstrumentLibraryDao instrumentLibrary) {
         this.masterpieceDao = masterpieceDao;
         this.instrumentLibrary = instrumentLibrary;
         this.playerStatus = "pysäytetty";
@@ -28,10 +30,6 @@ public class TrackerService {
 
     public int getNextRow() {
         return nextRow;
-    }
-
-    public int getMasterVolume() {
-        return masterVolume;
     }
 
     public void setBpm(int bpm) {
@@ -64,9 +62,17 @@ public class TrackerService {
             currentRow = 0;
         }
     }
+    
+    public void setInstrumentLibrary(InstrumentLibraryDao library) {
+        this.instrumentLibrary = library;
+    }
+    
+    public InstrumentLibraryDao getInstrumentLibrary() {
+        return this.instrumentLibrary;
+    }
 
     public void addNewRow() {
-        masterpiece.addRow(6);
+        masterpiece.addRow();
     }
 
     public void addNewRow(int numberOfRows) {
@@ -94,6 +100,12 @@ public class TrackerService {
         masterpiece = masterpieceDao.getNewMasterpiece(rows, tracks);
         currentBpm = masterpiece.getBpm();
         currentRow = 0;
+        updateInfoBar();
+    }
+    
+    public void setMasterpiece(Masterpiece masterpiece) {
+        this.masterpiece = masterpiece;
+        setBpm(masterpiece.getBpm());
         updateInfoBar();
     }
 
@@ -150,5 +162,9 @@ public class TrackerService {
         } else {
             selectedObject = instrumentLibrary.getInstrumentObject(instrument, objectId);
         }
+    }
+
+    public void setSelectedObject(TrackObject object) {
+        selectedObject = object;
     }
 }

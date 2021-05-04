@@ -49,15 +49,6 @@ public class TrackContainer {
         return "";
     }
 
-    public String getAllObjectIds() {
-        String ids = "";
-        for (int i = 0; i < objects.length - 1; i++) {
-            ids = ids + objects[i].getId() + ";";
-        }
-        ids += objects[objects.length - 1].getId();
-        return ids;
-    }
-
     public int size() {
         return objects.length;
     }

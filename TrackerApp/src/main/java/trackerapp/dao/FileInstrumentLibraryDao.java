@@ -1,24 +1,26 @@
-package trackerapp.domain;
+/*
+ * Petro Lehtonen
+ */
+package trackerapp.dao;
 
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 import javafx.scene.media.AudioClip;
+import trackerapp.domain.InstrumentObject;
 
 /**
  *
  * @author lehtonep
  */
-public class InstrumentLibrary {
+public class FileInstrumentLibraryDao implements InstrumentLibraryDao {
 
     private HashMap<String, HashMap<String, InstrumentObject>> library;
-
-    public InstrumentLibrary() {
-        library = new HashMap<>();
-    }
-
-    public InstrumentLibrary(String file) {
+    private String file;
+    
+    public FileInstrumentLibraryDao(String file) {
+        this.file = file;
         library = new HashMap<>();
         System.out.println("Adding instruments to library (from '" + file + "')...");
         try {
@@ -51,10 +53,10 @@ public class InstrumentLibrary {
     }
 
     public void addToInstrument(String instrument, String id, String file) {
-        String instrumentId = instrument + " " + id;
-        System.out.println("Instrument: '" + instrument + "' | id: '" + instrumentId + "' | file: '" + file + "'");
+        String instrumentId = instrument + ":" + id;
         if (library.containsKey(instrument)) {
-            library.get(instrument).put(id, new InstrumentObject(instrumentId, new AudioClip("file:" + file)));
+            InstrumentObject objectToAdd = new InstrumentObject(instrumentId, new AudioClip("file:" + file));  
+            library.get(instrument).put(id, objectToAdd);
         }
     }
 
@@ -88,5 +90,8 @@ public class InstrumentLibrary {
         }
         return null;
     }
-
+    
+    public String getSource() {
+        return this.file;
+    }
 }

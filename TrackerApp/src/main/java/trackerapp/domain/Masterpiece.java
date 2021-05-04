@@ -9,12 +9,13 @@ import java.util.ArrayList;
 public class Masterpiece {
 
     private String name;
-    private int bpm;
+    private int bpm ,tracks;
     private ArrayList<TrackContainer> rows;
 
-    public Masterpiece(String name, int bpm) {
+    public Masterpiece(String name, int bpm, int tracks) {
         this.name = name;
         this.bpm = bpm;
+        this.tracks = tracks;
         this.rows = new ArrayList<>();
     }
 
@@ -41,7 +42,7 @@ public class Masterpiece {
         return false;
     }
 
-    public void addRow(int tracks) {
+    public void addRow() {
         rows.add(new TrackContainer(tracks));
     }
 
@@ -68,5 +69,9 @@ public class Masterpiece {
 
     public boolean isEmpty() {
         return size() == 0;
+    }
+    
+    public int getTrackSize() {
+        return this.tracks;
     }
 }
