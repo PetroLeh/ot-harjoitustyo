@@ -18,16 +18,18 @@ Testikattavuusraportin saa komennolla
 mvn jacoco:report
 ```
 
-Suoritettavan jarin saa generoitua komennolla
-
-```
-mvn package
-```
-
 (alustavan) JavaDocin generointi komennolla
 
 ```
 mvn javadoc:javadoc
+```
+
+## Ohjelman suoritus
+
+Suoritettavan jarin saa generoitua komennolla
+
+```
+mvn package
 ```
 
 Ohjelman saa käynnistettyä komentoriviltä ohjelman juurihakemistosta (jossa tiedosto pom.xml sijaitsee) komennolla
@@ -39,6 +41,8 @@ tai
 ```
 java -jar target/TrackerApp-1.0-SNAPSHOT.jar
 ```
+Ohjelma tulee siis käynnistää sen juurihakemistosta, joka sisältää myös sen käyttämiä tiedostoja.
+
 
 ## releaset
 
