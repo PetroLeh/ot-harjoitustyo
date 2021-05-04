@@ -8,7 +8,7 @@ import javafx.scene.media.AudioClip;
  */
 public class InstrumentObject implements TrackObject {
 
-    private String id, instrument, plainId;
+    private String id;
     private AudioClip audio;
 
     public InstrumentObject(String id, AudioClip audio) {

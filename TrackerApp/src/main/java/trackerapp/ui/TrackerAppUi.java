@@ -27,7 +27,6 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import trackerapp.domain.Chord;
 
 /**
  *
@@ -76,10 +75,18 @@ public class TrackerAppUi extends Application {
     }
 
     public void setMainScene(Stage stage) {
+
         BorderPane mainPane = new BorderPane();
         ToolBar playerBar = new ToolBar();
         ScrollPane masterpieceView = new ScrollPane();
+        ScrollPane instrumentView = new ScrollPane();
         masterpieceGrid = new GridPane();
+
+        VBox instrumentBox = new VBox(10);
+        HBox infoBar = new HBox(30);
+        Label infoLabel = new Label("");
+        TextField bpmField = new TextField();
+
         Button playButton = new Button("play");
         Button stopButton = new Button("stop");
         Button pauseButton = new Button("pause");
@@ -89,6 +96,7 @@ public class TrackerAppUi extends Application {
         Button newMasterpieceButton = new Button("uusi mestariteos");
         Button saveButton = new Button("tallenna");
         Button openButton = new Button("avaa");
+        Button emptySelectionButton = new Button("tyhjä");
 
         TreeView objectTree = new TreeView();
         TreeItem items = new TreeItem("items");
@@ -117,21 +125,14 @@ public class TrackerAppUi extends Application {
             instruments.getChildren().add(instrumentItem);
         });
 
-        VBox toolBox = new VBox(10);
-        toolBox.getChildren().add(objectTree);
-
-        Button emptySelectionButton = new Button("tyhjä");
         emptySelectionButton.setOnAction(e -> {
             currentInstrument.setText("Valittuna:\ntyhjä");
             tracker.setSelectedObject(null, null);
         });
 
-        toolBox.getChildren().addAll(new Separator(), emptySelectionButton, new Separator(), currentInstrument);
-        toolBox.setPadding(new Insets(20, 20, 20, 20));
+        instrumentBox.getChildren().addAll(objectTree, new Separator(), emptySelectionButton, new Separator(), currentInstrument);
+        instrumentBox.setPadding(new Insets(20, 20, 20, 20));
 
-        HBox infoBar = new HBox(30);
-        Label infoLabel = new Label("");
-        TextField bpmField = new TextField();
         bpmField.setPrefWidth(40);
         bpmField.setText("180");
 
@@ -186,6 +187,7 @@ public class TrackerAppUi extends Application {
             updateMasterpieceGrid();
         });
         saveButton.setOnAction(e -> {
+            pauseButton.setDisable(true);
             player.stop();
             fileChooser.setInitialFileName(tracker.getMasterpiece().getName() + ".mp");
             File file = fileChooser.showSaveDialog(stage);
@@ -199,6 +201,8 @@ public class TrackerAppUi extends Application {
             masterpieceDao.saveMasterpiece(tracker.getMasterpiece(), instrumentLibrary);
         });
         openButton.setOnAction(e -> {
+            pauseButton.setDisable(true);
+            player.stop();
             File dir = new File("pieces");
             if (dir.exists()) {
                 fileChooser.setInitialDirectory(dir);
@@ -217,9 +221,8 @@ public class TrackerAppUi extends Application {
         masterpieceGrid.setHgap(50);
         masterpieceGrid.setVgap(5);
         updateMasterpieceGrid();
-        ScrollPane instrumentView = new ScrollPane();
 
-        instrumentView.setContent(toolBox);
+        instrumentView.setContent(instrumentBox);
         mainPane.setTop(playerBar);
         mainPane.setCenter(masterpieceView);
         mainPane.setRight(instrumentView);
@@ -230,24 +233,26 @@ public class TrackerAppUi extends Application {
     }
 
     private void setWelcomeScene(Stage stage) {
+
         VBox welcomePane = new VBox(20);
         HBox welcomeButtons = new HBox(30);
-        Separator separator = new Separator();
-        ScrollPane welcomeTextPane = new ScrollPane();
 
-        Label welcomeLabel = new Label(welcomeHeader);
-        welcomeTextPane.setContent(new Label(welcomeText));
+        ScrollPane welcomeTextPane = new ScrollPane();
 
         Button openMasterpieceButton = new Button("lataa");
         Button newMasterpieceButton = new Button("uusi");
         Button closeButton = new Button("sulje");
 
-        welcomeButtons.getChildren().addAll(newMasterpieceButton, openMasterpieceButton, closeButton);
-        welcomeButtons.setAlignment(Pos.CENTER);
+        Label welcomeLabel = new Label(welcomeHeader);
+        welcomeTextPane.setContent(new Label(welcomeText));
 
-        welcomePane.setAlignment(Pos.CENTER);
+        welcomeButtons.getChildren().addAll(newMasterpieceButton, openMasterpieceButton, closeButton);
+
+        welcomePane.getChildren().addAll(welcomeLabel, new Separator(), welcomeTextPane, welcomeButtons);
+
         welcomePane.setPadding(new Insets(20, 20, 20, 20));
-        welcomePane.getChildren().addAll(welcomeLabel, separator, welcomeTextPane, welcomeButtons);
+        welcomeButtons.setAlignment(Pos.CENTER);
+        welcomePane.setAlignment(Pos.CENTER);
 
         newMasterpieceButton.setOnAction(e -> {
             tracker.setNewMasterpiece(0, 6);
@@ -270,6 +275,7 @@ public class TrackerAppUi extends Application {
         closeButton.setOnAction(e -> {
             stage.close();
         });
+
         welcomeScene = new Scene(welcomePane, 600, 400);
     }
 

@@ -11,6 +11,7 @@ public class TrackContainerTest {
 
     @Test
     public void constructorCreatesArrayCorrectly() {
+        
         TrackContainer tc = new TrackContainer(5);
         assertEquals(5, tc.getAllObjects().length);
     }
@@ -18,6 +19,7 @@ public class TrackContainerTest {
        
     @Test
     public void addingObjectsToContainerWorks() {
+        
         TrackContainer tc = new TrackContainer(5);
         TrackObject testObject = new InstrumentObject("test", null);
         

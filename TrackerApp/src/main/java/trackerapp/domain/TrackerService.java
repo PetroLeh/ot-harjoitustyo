@@ -28,32 +28,82 @@ public class TrackerService {
         this.currentRow = 0;
     }
 
-    public int getNextRow() {
-        return nextRow;
+    public void setInstrumentLibrary(InstrumentLibraryDao library) {
+        this.instrumentLibrary = library;
+    }
+
+    public void setMasterpiece(Masterpiece masterpiece) {
+        this.masterpiece = masterpiece;
+        setBpm(masterpiece.getBpm());
+        updateInfoBar();
+    }
+
+    public void setNewMasterpiece(int rows, int tracks) {
+        masterpiece = masterpieceDao.getNewMasterpiece(rows, tracks);
+        currentBpm = masterpiece.getBpm();
+        currentRow = 0;
+        updateInfoBar();
+    }
+
+    public void setSelectedObject(String instrument, String objectId) {
+        if (instrument == null || objectId == null) {
+            selectedObject = null;
+        } else {
+            selectedObject = instrumentLibrary.getInstrumentObject(instrument, objectId);
+        }
+    }
+
+    public void setSelectedObject(TrackObject object) {
+        selectedObject = object;
     }
 
     public void setBpm(int bpm) {
         currentBpm = bpm;
     }
 
-    public int getCurrentBpm() {
-        return currentBpm;
-    }
-
     public void setInfoBar(Label infoLabel) {
         this.infoLabel = infoLabel;
     }
 
-    public void updateInfoBar() {
-        infoLabel.setText(getInfo());
+    public void setCurrentRow(int row) {
+        currentRow = row;
+    }
+
+    public void setPlayerStatus(String status) {
+        playerStatus = status;
+    }
+
+    public Masterpiece getMasterpiece() {
+        return masterpiece;
+    }
+
+    public InstrumentLibraryDao getInstrumentLibrary() {
+        return this.instrumentLibrary;
+    }
+
+    public TrackObject getSelectedObject() {
+        return selectedObject;
+    }
+
+    public String getTrackInfo(int row) {
+        if (masterpiece != null && !masterpiece.isEmpty()) {
+            if (masterpiece.getTrackContainer(row) != null) {
+                return masterpiece.getTrackContainer(row).toString();
+            }
+        }
+        return "";
+    }
+
+    public int getNextRow() {
+        return nextRow;
+    }
+
+    public int getCurrentBpm() {
+        return currentBpm;
     }
 
     public int getCurrentRow() {
         return currentRow;
-    }
-
-    public void setCurrentRow(int row) {
-        currentRow = row;
     }
 
     public void nextRow() {
@@ -62,20 +112,12 @@ public class TrackerService {
             currentRow = 0;
         }
     }
-    
-    public void setInstrumentLibrary(InstrumentLibraryDao library) {
-        this.instrumentLibrary = library;
-    }
-    
-    public InstrumentLibraryDao getInstrumentLibrary() {
-        return this.instrumentLibrary;
-    }
 
     public void addNewRow() {
         masterpiece.addRow();
     }
 
-    public void addNewRow(int numberOfRows) {
+    public void addNewRows(int numberOfRows) {
         for (int i = 0; i < numberOfRows; i++) {
             addNewRow();
         }
@@ -85,32 +127,14 @@ public class TrackerService {
         masterpiece.removeRow();
     }
 
-    public void setPlayerStatus(String status) {
-        playerStatus = status;
-    }
-
-    public String getTrackInfo(int row) {
-        if (!masterpiece.isEmpty()) {
-            return masterpiece.getTrackContainer(row).toString();
-        }
-        return "";
-    }
-
-    public void setNewMasterpiece(int rows, int tracks) {
-        masterpiece = masterpieceDao.getNewMasterpiece(rows, tracks);
-        currentBpm = masterpiece.getBpm();
-        currentRow = 0;
-        updateInfoBar();
-    }
-    
-    public void setMasterpiece(Masterpiece masterpiece) {
-        this.masterpiece = masterpiece;
-        setBpm(masterpiece.getBpm());
-        updateInfoBar();
-    }
-
     public boolean addObject(int row, int track, TrackObject object) {
         return masterpiece.addObject(row, track, object);
+    }
+
+    public void updateInfoBar() {
+        if (infoLabel != null) {
+            infoLabel.setText(getInfo());
+        }
     }
 
     public boolean activateTrackContainer(int row) {
@@ -137,10 +161,6 @@ public class TrackerService {
         return trackInfo;
     }
 
-    public Masterpiece getMasterpiece() {
-        return masterpiece;
-    }
-
     public String getInfo() {
         if (masterpiece != null) {
             String info = "mestariteos: " + masterpiece.getName() + "\t"
@@ -149,22 +169,7 @@ public class TrackerService {
                     + playerStatus;
             return info;
         }
-        return "...";
+        return "";
     }
 
-    public TrackObject getSelectedObject() {
-        return selectedObject;
-    }
-
-    public void setSelectedObject(String instrument, String objectId) {
-        if (instrument == null || objectId == null) {
-            selectedObject = null;
-        } else {
-            selectedObject = instrumentLibrary.getInstrumentObject(instrument, objectId);
-        }
-    }
-
-    public void setSelectedObject(TrackObject object) {
-        selectedObject = object;
-    }
 }

@@ -3,6 +3,7 @@
  */
 package trackerapp.dao;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,32 +20,42 @@ public class FileInstrumentLibraryDao implements InstrumentLibraryDao {
     private HashMap<String, HashMap<String, InstrumentObject>> library;
     private String file;
     
+    public FileInstrumentLibraryDao() {
+        library = new HashMap<>();
+    }
+
     public FileInstrumentLibraryDao(String file) {
         this.file = file;
         library = new HashMap<>();
         System.out.println("Adding instruments to library (from '" + file + "')...");
-        try {
-            Scanner reader = new Scanner(Paths.get(file));
-            String instrument = "";
-            String directory = "";
 
-            while (reader.hasNextLine()) {
-                String line = reader.nextLine();
-                if (!line.isBlank()) {
-                    String[] pieces = line.split(";");
-                    if (pieces[0].charAt(0) == '@') {
-                        instrument = pieces[0].replace("@", "");
-                        directory = pieces[1];
-                        addNewInstrument(instrument);
-                    } else {
-                        String instrumentId = pieces[0];
-                        String audioFile = directory + pieces[1];
-                        addToInstrument(instrument, instrumentId, audioFile);
+        File checkFile = new File(file);
+
+        if (checkFile.exists()) {
+            try {
+                Scanner reader = new Scanner(Paths.get(file));
+                String instrument = "";
+                String directory = "";
+
+                while (reader.hasNextLine()) {
+                    String line = reader.nextLine();
+                    if (!line.isBlank()) {
+                        String[] pieces = line.split(";");
+                        if (pieces[0].charAt(0) == '@') {
+                            instrument = pieces[0].replace("@", "");
+                            directory = pieces[1];
+                            addNewInstrument(instrument);
+                        } else {
+                            String instrumentId = pieces[0];
+                            String audioFile = directory + pieces[1];
+                            AudioClip audioClip = new AudioClip("file:" + audioFile);
+                            addToInstrument(instrument, instrumentId, audioClip);
+                        }
                     }
                 }
+            } catch (Exception e) {
+                System.out.println("Virhe luettaessa '" + file + "':\n" + e.toString());
             }
-        } catch (Exception e) {
-            System.out.println("Virhe luettaessa '" + file + "':\n" + e.toString());
         }
     }
 
@@ -52,10 +63,10 @@ public class FileInstrumentLibraryDao implements InstrumentLibraryDao {
         library.putIfAbsent(instrument, new HashMap<>());
     }
 
-    public void addToInstrument(String instrument, String id, String file) {
+    public void addToInstrument(String instrument, String id, AudioClip audioClip) {
         String instrumentId = instrument + ":" + id;
         if (library.containsKey(instrument)) {
-            InstrumentObject objectToAdd = new InstrumentObject(instrumentId, new AudioClip("file:" + file));  
+            InstrumentObject objectToAdd = new InstrumentObject(instrumentId, audioClip);
             library.get(instrument).put(id, objectToAdd);
         }
     }
@@ -90,7 +101,7 @@ public class FileInstrumentLibraryDao implements InstrumentLibraryDao {
         }
         return null;
     }
-    
+
     public String getSource() {
         return this.file;
     }

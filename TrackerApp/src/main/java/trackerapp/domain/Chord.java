@@ -1,7 +1,6 @@
 package trackerapp.domain;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  *
@@ -13,7 +12,7 @@ public class Chord implements TrackObject {
     private ArrayList<InstrumentObject> inChord;
 
     public Chord() {
-        this.id = "sointu";
+        this.id = "";
         inChord = new ArrayList<>();
     }
 
