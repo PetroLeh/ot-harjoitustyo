@@ -42,8 +42,9 @@ java -jar target/TrackerApp-1.0-SNAPSHOT.jar
 
 ## releaset
 
- - [viikko5](https://github.com/PetroLeh/ot-harjoitustyo/releases)
-
+ - [viikko5](https://github.com/PetroLeh/ot-harjoitustyo/releases/tag/viikko5)
+ - [viikko6](https://github.com/PetroLeh/ot-harjoitustyo/releases/tag/viikko6)
+ 
 ## dokumentaatio
  - [vaatimusmäärittely](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
  - [työaikakirjanpito](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
