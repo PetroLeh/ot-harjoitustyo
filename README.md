@@ -52,4 +52,4 @@ Ohjelma tulee siis käynnistää sen juurihakemistosta, joka sisältää myös s
 ## dokumentaatio
  - [vaatimusmäärittely](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
  - [työaikakirjanpito](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
- - [luokkakaavio](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/trackerLuokkakaavio.jpg)
+ - [luokkakaavio](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/luokkakaavio0405.jpg)
