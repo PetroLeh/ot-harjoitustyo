@@ -7,11 +7,7 @@ itsessään on hyvin suppea, mutta jostain tähänkin on mahtipontisuutta
 saatava, joten ohjelmalla luotavia tuotoksia kutsutaan mestariteoksiksi.
 
 Voit joko aloittaa uuden mestariteoksen luomisen tai avata olemassa
-olevan mestariteoksen muokattavaksi, jos sellaisia on jo luotu. Paitsi,
-että vielä et voi tehdä juuri mitään :).
-
-Edellisessä versiossa ollut automaattinen kappaleen luonti on nyt
-poistettu ja sen sijaan on mahdollista tehdä itsekin jo jotain.
+olevan mestariteoksen muokattavaksi, jos sellaisia on jo luotu.
 
 Teokset koostuvat objektiriveistä, joissa kussakin on (toistaiseksi kiinteät) kuusi
 raitaa. Soitettaessa teosta ohjelma käy rivejä läpi ja aktivoi kulloisellakin rivillä
@@ -29,6 +25,11 @@ mikä ei ole tähän tarkoitukseen ihan optimaalinen, mutta luulen, että aika
 ei riitä syvempään aiheeseen perehtymiseen. Tästä tullee siis projektin
 aikataulun puitteissa kenties jonkinlainen rautalankamalli, jota saatan
 jatkaa myöhemmin.
+
+Kurssin aikataulun puitteissa ohjelma ei myöskään tule etenemään siihen pisteeseen asti, että
+näitä luovuuden hedelmiä saisi vietyä äänitiedostoiksi esim WAV-formaatissa tms. vaan
+ohjelma tallentaa vain teoksen rakenteen ja käytetyn instrumenttikirjaston, joka sitten
+pitää olla saatavilla myös, kun teos halutaan myöhemmin avata muokattavaksi.
 
 Palaillaan!
 
