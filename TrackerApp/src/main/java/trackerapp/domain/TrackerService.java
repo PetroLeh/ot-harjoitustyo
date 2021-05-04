@@ -1,13 +1,14 @@
 package trackerapp.domain;
 
-import java.io.File;
 import java.util.ArrayList;
 import javafx.scene.control.Label;
 import trackerapp.dao.InstrumentLibraryDao;
 import trackerapp.dao.MasterpieceDao;
 
 /**
- *
+ * TrackerService-luokan kautta käyttöliittymästä pääsee luomaan uuden mestariteoksen ja
+ * pystyy käsittelemään sen sisältöä.
+ * 
  * @author lehtonep
  */
 public class TrackerService {
@@ -21,23 +22,46 @@ public class TrackerService {
     private TrackObject selectedObject;
     private InstrumentLibraryDao instrumentLibrary;
 
+    /**
+     * TrackerService-luokan konstruktori
+     * 
+     * @param masterpieceDao Rajapinta, jota luokka käyttää mestariteosten lataamiseen ja tallentamiseen
+     * @param instrumentLibrary Instrumenttikirjasto jota luokka käyttää
+     */
     public TrackerService(MasterpieceDao masterpieceDao, InstrumentLibraryDao instrumentLibrary) {
         this.masterpieceDao = masterpieceDao;
         this.instrumentLibrary = instrumentLibrary;
         this.playerStatus = "pysäytetty";
         this.currentRow = 0;
     }
-
+    
+    /**
+     * Asettaa uuden instrumenttikirjaston luokan käyttöön
+     * 
+     * @param library Uusi instrumenttikirjasto
+     */
     public void setInstrumentLibrary(InstrumentLibraryDao library) {
         this.instrumentLibrary = library;
     }
 
+    /**
+     * Asettaa mestariteoksen, jota luokka käsittelee
+     * 
+     * @param masterpiece Käsiteltävä mestariteos
+     */
     public void setMasterpiece(Masterpiece masterpiece) {
         this.masterpiece = masterpiece;
         setBpm(masterpiece.getBpm());
         updateInfoBar();
     }
-
+    
+    /**
+    * Luo uuden mestariteoksen ja asettaa sen käsiteltäväksi teokseksi
+    *
+    * @param rows Luotavan mestariteoksen rivimäärä
+    * 
+    * @param tracks Raitojen määrä yhdellä rivillä
+    */
     public void setNewMasterpiece(int rows, int tracks) {
         masterpiece = masterpieceDao.getNewMasterpiece(rows, tracks);
         currentBpm = masterpiece.getBpm();
@@ -136,7 +160,13 @@ public class TrackerService {
             infoLabel.setText(getInfo());
         }
     }
-
+    
+    /**
+     * Aktivoi tietyllä rivillä olevat raidat
+     * 
+     * @param row Aktivoitava rivi
+     * @return true, jos aktivointi onnistui, false jos ei onnistunut tai raitaa ei ole
+     */
     public boolean activateTrackContainer(int row) {
         TrackContainer tc = masterpiece.getTrackContainer(row);
         if (tc == null) {
@@ -145,7 +175,12 @@ public class TrackerService {
         tc.activate();
         return true;
     }
-
+    
+    /**
+     * Palauttaa listan jokaisella rivillä olevien raitojen sisällöstä
+     * 
+     * @return Lista, jonka alkiot ovat raitaobjektien tunnisteita sisältäviä taulukoita.
+     */
     public ArrayList<String[]> getMasterpieceInfo() {
         if (masterpiece == null) {
             return null;
@@ -161,7 +196,7 @@ public class TrackerService {
         return trackInfo;
     }
 
-    public String getInfo() {
+    private String getInfo() {
         if (masterpiece != null) {
             String info = "mestariteos: " + masterpiece.getName() + "\t"
                     + "bpm: " + currentBpm + "\t"
