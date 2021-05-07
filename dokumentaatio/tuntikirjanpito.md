@@ -18,4 +18,6 @@
 | 27.4. | 6    | lisää toiminnallisuuksia, refaktorointia |
 | 3.5.  | 4    | bugien korjausta, refaktorointia |
 | 4.5.  | 6    | testien lisäystä, alustava javaDoc |
-| yht   | 48   | | 
+| 7.5.  | 1    | metodien pilkkomista |
+|	| 2    | testien lisäystä
+| yht   | 51   | | 

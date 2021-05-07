@@ -12,9 +12,17 @@ import trackerapp.domain.Masterpiece;
 public class FileMasterpieceDao implements MasterpieceDao {
 
     private File file;
+    private String name, instrumentLibrary;
+    private int numberOfRows, numberOfTracks, bpm;
+    FileInstrumentLibraryDao library;
 
     public FileMasterpieceDao() {
         this.file = null;
+        this.name = "nimetön";
+        this.bpm = 180;
+        this.instrumentLibrary = "instruments.csv";
+        this.numberOfRows = 0;
+        this.numberOfTracks = 6;
     }
 
     public void setFile(File file) {
@@ -36,69 +44,44 @@ public class FileMasterpieceDao implements MasterpieceDao {
     @Override
     public Masterpiece loadMasterpiece() {
 
-        String name = "nimetön";
-        int numberOfRows = 0;
-        int numberOfTracks = 6;
-        int bpm = 180;
-        String instrumentLibrary = "instruments.csv";
-        
         System.out.println("Avataan " + file.getName() + "...");
-        try { 
+        try {
             Scanner reader = new Scanner(file);
             String header = "";
             while (header.isBlank() && reader.hasNextLine()) {
                 header = reader.nextLine();
             }
-            String[] pieces = header.split(";");
-            for (String pair : pieces) {
-                String key = pair.split("=")[0].toLowerCase();
-                String value = pair.split("=")[1];
-                System.out.println(key + " = " + value);
-                if (key.equals("name")) {
-                    name = value;
-                } else if (key.equals("rows")) {
-                    numberOfRows = Integer.valueOf(value);
-                } else if (key.equals("tracks")) {
-                    numberOfTracks = Integer.valueOf(value);
-                } else if (key.equals("bpm")) {
-                    bpm = Integer.valueOf(value);
-                } else if (key.equals("library")) {
-                    instrumentLibrary = value;
-                }
-            }
-            Masterpiece masterpiece = getNewMasterpiece(numberOfRows, numberOfTracks);
-            masterpiece.setName(name);
-            masterpiece.setBpm(bpm);            
 
-            FileInstrumentLibraryDao library = new FileInstrumentLibraryDao(instrumentLibrary);
-            
-            int rowNumber = 0;
-            while (reader.hasNextLine()) {
-                String row = reader.nextLine();
-                if (!row.isBlank()) {
-                    String[] tracks = row.split(";");
-                    for (int track = 0; track < tracks.length; track++) {
-                        if (!tracks[track].isBlank()) {
-                            String instrument = tracks[track].split(":")[0];
-                            String id = tracks[track].split(":")[1];
-                            masterpiece.addObject(rowNumber, track, library.getInstrumentObject(instrument, id));
-                        } 
+            boolean headerOk = parseHeader(header);
+
+            if (headerOk) {
+                Masterpiece masterpiece = getNewMasterpiece(numberOfRows, numberOfTracks);
+                masterpiece.setName(name);
+                masterpiece.setBpm(bpm);
+                library = new FileInstrumentLibraryDao(instrumentLibrary);
+
+                int rowNumber = 0;
+                while (reader.hasNextLine()) {
+                    String row = reader.nextLine();
+                    if (!row.isBlank()) {
+                        addToMasterpiece(masterpiece, rowNumber, row);
+                        rowNumber++;
                     }
-                    rowNumber++;
                 }
+                return masterpiece;
             }
-            return masterpiece;
 
         } catch (Exception e) {
             System.out.println("Virhe luettaessa tiedostoa '" + file.toString() + "':\n" + e.toString());
         }
+
         return getNewMasterpiece(0, 6);
     }
 
     @Override
     public boolean saveMasterpiece(Masterpiece masterpiece, InstrumentLibraryDao instrumentLibrary) {
-        String source = instrumentLibrary.getSource();
-        if (file == null || masterpiece == null) {
+
+        if (file == null || masterpiece == null || instrumentLibrary == null) {
             return false;
         }
         System.out.println("Tallennetaan...");
@@ -124,7 +107,52 @@ public class FileMasterpieceDao implements MasterpieceDao {
             System.out.println("virhe: " + e.toString());
             return false;
         }
-
         return true;
     }
+
+    private boolean parseHeader(String header) {
+
+        String[] pieces = header.split(";");
+        for (String pair : pieces) {
+            String key = pair.split("=")[0].toLowerCase();
+            String value = pair.split("=")[1];
+            System.out.println(key + " = " + value);
+            if (key.equals("name")) {
+                name = value;
+            } else if (key.equals("rows")) {
+                try {
+                    numberOfRows = Integer.valueOf(value);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+            } else if (key.equals("tracks")) {
+                try {
+                    numberOfTracks = Integer.valueOf(value);
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+            } else if (key.equals("bpm")) {
+                try {
+                    bpm = Integer.valueOf(value);
+                } catch (NumberFormatException e) {
+                    bpm = 180;
+                }
+            } else if (key.equals("library")) {
+                instrumentLibrary = value;
+            }
+        }
+        return true;
+    }
+
+    private void addToMasterpiece(Masterpiece masterpiece, int rowNumber, String row) {
+        String[] tracks = row.split(";");
+        for (int track = 0; track < tracks.length; track++) {
+            if (!tracks[track].isBlank()) {
+                String instrument = tracks[track].split(":")[0];
+                String id = tracks[track].split(":")[1];
+                masterpiece.addObject(rowNumber, track, library.getInstrumentObject(instrument, id));
+            }
+        }
+    }
+
 }
