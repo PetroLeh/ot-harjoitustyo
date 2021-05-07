@@ -121,7 +121,6 @@ public class TrackerServiceTest {
         assertEquals(testTracker.getMasterpieceInfo().get(0)[0], "testInstrument:testObject");
     }
 
-
     @Test
     public void activatingTrackContainerOutOfRangeReturnsFalse() {
         

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Masterpiece {
 
     private String name;
-    private int bpm ,tracks;
+    private int bpm, tracks;
     private ArrayList<TrackContainer> rows;
 
     public Masterpiece(String name, int bpm, int tracks) {
@@ -70,7 +70,7 @@ public class Masterpiece {
     public boolean isEmpty() {
         return size() == 0;
     }
-    
+
     public int getTrackSize() {
         return this.tracks;
     }
