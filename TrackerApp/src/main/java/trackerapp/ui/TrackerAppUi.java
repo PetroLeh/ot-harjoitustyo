@@ -34,7 +34,7 @@ import javafx.stage.Stage;
  */
 public class TrackerAppUi extends Application {
 
-    private String title, welcomeHeader, welcomeText, styleSheet;
+    private String title, welcomeHeader, welcomeText, currentFileLocation;
     private Scene welcomeScene, settingsScene, mainScene;
     private FileChooser fileChooser;
     private TextFileDao filereader = new TextFileDao();
@@ -49,7 +49,6 @@ public class TrackerAppUi extends Application {
     public void init() throws Exception {
         Properties properties = new Properties();
         properties.load(new FileInputStream("config.properties"));
-        styleSheet = properties.getProperty("styleSheet", "defaultStyleSheet.css");
         title = properties.getProperty("title", "Masterpiece Tracker");
         welcomeHeader = properties.getProperty("welcomeHeader", "Hola!");
         String welcomeFile = properties.getProperty("welcomeTextFile");
@@ -57,6 +56,7 @@ public class TrackerAppUi extends Application {
         fileChooser = new FileChooser();
         fileChooser.setTitle(title + " - avaa");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("masterpiece files", "*.mp"));
+        currentFileLocation = "pieces";
         instrumentLibrary = new FileInstrumentLibraryDao("instruments.csv");
         tracker = new TrackerService(masterpieceDao, instrumentLibrary);
         player = new Player(tracker);
@@ -190,15 +190,26 @@ public class TrackerAppUi extends Application {
             pauseButton.setDisable(true);
             player.stop();
             fileChooser.setInitialFileName(tracker.getMasterpiece().getName() + ".mp");
-            File file = fileChooser.showSaveDialog(stage);
-            String name = file.getName();
-            if (name.endsWith(".mp")) {
-                name = name.replace(".mp", "");
+            File dir = new File("pieces");
+            if (dir.exists()) {
+                fileChooser.setInitialDirectory(dir);
             }
-            tracker.getMasterpiece().setName(name);
-            tracker.updateInfoBar();
-            masterpieceDao.setFile(file);
-            masterpieceDao.saveMasterpiece(tracker.getMasterpiece(), instrumentLibrary);
+
+            File file = fileChooser.showSaveDialog(stage);
+
+            if (file != null) {
+
+                String name = file.getName();
+                if (name.endsWith(".mp")) {
+                    name = name.replace(".mp", "");
+                } else {
+                    file = new File(file.getPath() + ".mp");
+                }
+                tracker.getMasterpiece().setName(name);
+                tracker.updateInfoBar();
+                masterpieceDao.setFile(file);
+                masterpieceDao.saveMasterpiece(tracker.getMasterpiece(), instrumentLibrary);
+            }
         });
         openButton.setOnAction(e -> {
             pauseButton.setDisable(true);
@@ -208,6 +219,7 @@ public class TrackerAppUi extends Application {
                 fileChooser.setInitialDirectory(dir);
             }
             File file = fileChooser.showOpenDialog(stage);
+
             if (file != null) {
                 masterpieceDao.setFile(file);
                 tracker.setMasterpiece(masterpieceDao.loadMasterpiece());

@@ -6,6 +6,7 @@ package trackerapp.dao;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Scanner;
 import javafx.scene.media.AudioClip;
@@ -19,7 +20,7 @@ public class FileInstrumentLibraryDao implements InstrumentLibraryDao {
 
     private HashMap<String, HashMap<String, InstrumentObject>> library;
     private String file;
-    
+
     public FileInstrumentLibraryDao() {
         library = new HashMap<>();
     }
@@ -80,6 +81,7 @@ public class FileInstrumentLibraryDao implements InstrumentLibraryDao {
         library.keySet().forEach(key -> {
             r.add(key);
         });
+        Collections.sort(r);
         return r;
     }
 
@@ -90,6 +92,7 @@ public class FileInstrumentLibraryDao implements InstrumentLibraryDao {
                 r.add(id);
             });
         }
+        Collections.sort(r);
         return r;
     }
 

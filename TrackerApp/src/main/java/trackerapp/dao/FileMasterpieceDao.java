@@ -44,7 +44,7 @@ public class FileMasterpieceDao implements MasterpieceDao {
     @Override
     public Masterpiece loadMasterpiece() {
 
-        System.out.println("Avataan " + file.getName() + "...");
+        System.out.println("Opening " + file.getName() + "...");
         try {
             Scanner reader = new Scanner(file);
             String header = "";
@@ -72,7 +72,7 @@ public class FileMasterpieceDao implements MasterpieceDao {
             }
 
         } catch (Exception e) {
-            System.out.println("Virhe luettaessa tiedostoa '" + file.toString() + "':\n" + e.toString());
+            System.out.println("Error reading file '" + file.toString() + "':\n" + e.toString());
         }
 
         return getNewMasterpiece(0, 6);
@@ -84,7 +84,7 @@ public class FileMasterpieceDao implements MasterpieceDao {
         if (file == null || masterpiece == null || instrumentLibrary == null) {
             return false;
         }
-        System.out.println("Tallennetaan...");
+        System.out.println("Saving...");
         try {
             FileWriter writer = new FileWriter(file);
             String header = "name=" + masterpiece.getName() + ";rows=" + masterpiece.size() + ";tracks=" + masterpiece.getTrackSize() + ";bpm="
@@ -104,7 +104,7 @@ public class FileMasterpieceDao implements MasterpieceDao {
             }
             writer.close();
         } catch (Exception e) {
-            System.out.println("virhe: " + e.toString());
+            System.out.println("error: " + e.toString());
             return false;
         }
         return true;
@@ -116,7 +116,6 @@ public class FileMasterpieceDao implements MasterpieceDao {
         for (String pair : pieces) {
             String key = pair.split("=")[0].toLowerCase();
             String value = pair.split("=")[1];
-            System.out.println(key + " = " + value);
             if (key.equals("name")) {
                 name = value;
             } else if (key.equals("rows")) {
