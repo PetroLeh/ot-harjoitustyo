@@ -19,7 +19,7 @@
 | 3.5.  | 4    | bugien korjausta, refaktorointia |
 | 4.5.  | 6    | testien lisäystä, alustava javaDoc |
 | 7.5.  | 1    | metodien pilkkomista |
-|		| 2    | testien lisäystä |
+|       | 2    | testien lisäystä |
 | 16.5. | 1    | koodin siistimistä |
-|		| 2    | dokumentaation päivitystä |
-| yht   | 54   | | 
+|	| 4    | dokumentaation päivitystä |
+| yht   | 56   | | 
