@@ -35,6 +35,7 @@ lisää kohta.
 # Datarakenne
 
 teoksen rakenne:
+
 <img src="https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/masterpiece.png">
 
 Käyttöliittymässä käsitellään yhtä teosta kerrallaan. Teos koostuu listasta TrackContainer-olioita, joissa jokaisessa puolestaan on
@@ -48,4 +49,5 @@ talletettu jokaisen instrumentin äänikirjastot ja niiden id-tunnukset.
 # Toiminnallisuus
 
 Seuraavassa kuvattuna objektin lisääminen sekvenssikaaviona:
+
 <img src="https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/objektinlisaaminen.png">
