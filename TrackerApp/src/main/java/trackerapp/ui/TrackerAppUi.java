@@ -34,8 +34,8 @@ import javafx.stage.Stage;
  */
 public class TrackerAppUi extends Application {
 
-    private String title, welcomeHeader, welcomeText, currentFileLocation;
-    private Scene welcomeScene, settingsScene, mainScene;
+    private String title, welcomeHeader, welcomeText;
+    private Scene welcomeScene, mainScene;
     private FileChooser fileChooser;
     private TextFileDao filereader = new TextFileDao();
     private FileMasterpieceDao masterpieceDao = new FileMasterpieceDao();
@@ -48,16 +48,27 @@ public class TrackerAppUi extends Application {
     @Override
     public void init() throws Exception {
         Properties properties = new Properties();
-        properties.load(new FileInputStream("config.properties"));
-        title = properties.getProperty("title", "Masterpiece Tracker");
-        welcomeHeader = properties.getProperty("welcomeHeader", "Hola!");
-        String welcomeFile = properties.getProperty("welcomeTextFile");
+        File configFile = new File("config.properties");
+        String welcomeFile = "";
+        String libraryFile = "";
+        if (configFile.exists() && configFile.canRead()) {
+            properties.load(new FileInputStream("config.properties"));
+            title = properties.getProperty("title", "Masterpiece Tracker");
+            welcomeHeader = properties.getProperty("welcomeHeader", "Hola!");
+            welcomeFile = properties.getProperty("welcomeTextFile", "welcome.txt");
+            libraryFile = properties.getProperty("instrumentLibrary", "instruments.csv");
+        } else {
+            title = "Masterpiece Tracker";
+            welcomeHeader = "Terve!";
+            welcomeFile = "welcome.txt";
+            libraryFile = "instruments.csv";
+        }
+
         welcomeText = filereader.getAsString(welcomeFile);
         fileChooser = new FileChooser();
         fileChooser.setTitle(title + " - avaa");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("masterpiece files", "*.mp"));
-        currentFileLocation = "pieces";
-        instrumentLibrary = new FileInstrumentLibraryDao("instruments.csv");
+        instrumentLibrary = new FileInstrumentLibraryDao(libraryFile);
         tracker = new TrackerService(masterpieceDao, instrumentLibrary);
         player = new Player(tracker);
         masterpieceGridFont = new Font(15);
@@ -101,10 +112,11 @@ public class TrackerAppUi extends Application {
         TreeView objectTree = new TreeView();
         TreeItem items = new TreeItem("items");
         TreeItem instruments = new TreeItem("instrumentit");
-        TreeItem controls = new TreeItem("kontrollit");
+        instruments.setExpanded(true);
 
-        items.getChildren().addAll(instruments, controls);
+        items.getChildren().addAll(instruments);
         Label currentInstrument = new Label("Valittuna:\nei mitään");
+        currentInstrument.setFont(new Font(20));
 
         objectTree.setRoot(items);
         objectTree.setShowRoot(false);
