@@ -14,6 +14,7 @@ Itse kirjastotiedosto on instruments.csv.
 
  - [viikko5](https://github.com/PetroLeh/ot-harjoitustyo/releases/tag/viikko5)
  - [viikko6](https://github.com/PetroLeh/ot-harjoitustyo/releases/tag/viikko6)
+ - [loppupalautus](https://github.com/PetroLeh/ot-harjoitustyo/releases/tag/loppupalautus)
  
 ## Komentorivitoiminnot
 
