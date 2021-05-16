@@ -4,7 +4,20 @@ Pienimuotoinen musisointi/sämpläys-ohjelma. Suppea instrumenttivalikoima (aina
 instrumenttikirjastoa voi vaikka itse laajentaa. Äänitiedostot, joita ohjelma käyttää sijatsevat hakemiston audio/_instrumentinNimi_/ alla.
 Itse kirjastotiedosto on instruments.csv.
 
-## Testaus
+## dokumentaatio
+ - [vaatimusmäärittely](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
+ - [Arkkitehtuurikuvaus](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/arkkitehtuuri.md)
+ - [Testausdokumentti](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/testaus.md)
+ - [Työaikakirjanpito](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
+ 
+## releaset
+
+ - [viikko5](https://github.com/PetroLeh/ot-harjoitustyo/releases/tag/viikko5)
+ - [viikko6](https://github.com/PetroLeh/ot-harjoitustyo/releases/tag/viikko6)
+ 
+## Komentorivitoiminnot
+
+### Testaus
 
 Testit saa suoritettua komennolla
 
@@ -24,7 +37,7 @@ mvn jacoco:report
 mvn javadoc:javadoc
 ```
 
-## Ohjelman suoritus
+### Ohjelman suoritus
 
 Suoritettavan jarin saa generoitua komennolla
 
@@ -44,12 +57,5 @@ java -jar target/TrackerApp-1.0-SNAPSHOT.jar
 Ohjelma tulee siis käynnistää sen juurihakemistosta, joka sisältää myös sen käyttämiä tiedostoja.
 
 
-## releaset
 
- - [viikko5](https://github.com/PetroLeh/ot-harjoitustyo/releases/tag/viikko5)
- - [viikko6](https://github.com/PetroLeh/ot-harjoitustyo/releases/tag/viikko6)
- 
-## dokumentaatio
- - [vaatimusmäärittely](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/vaatimusmaarittely.md)
- - [työaikakirjanpito](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/tuntikirjanpito.md)
- - [luokkakaavio](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/luokkakaavio0405.jpg)
+
