@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
  *
  * @author lehtonep
  */
-public class TrackContainerTest {
+public class TestTrackContainer {
 
     @Test
     public void constructorCreatesArrayCorrectly() {

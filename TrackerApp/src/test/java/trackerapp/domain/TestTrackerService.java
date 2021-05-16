@@ -13,7 +13,7 @@ import trackerapp.dao.FileMasterpieceDao;
  *
  * @author lehtonep
  */
-public class TrackerServiceTest {
+public class TestTrackerService {
 
     FileInstrumentLibraryDao testLibrary;
     Masterpiece testMasterpiece;

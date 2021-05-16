@@ -15,19 +15,16 @@ Sovelluksella on yksi käyttäjärooli, normaali käyttäjä.
  
  - tervehdysnäkymä
  - tiedostojen selaamista (avaamista ja tallentamista) varten
- - asetusten muuttamista varten
  - työnäkymä, jossa työkalurivi sekä moniraitainen aikajana kappaleen työstämistä varten
 
-![näkymät](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/nakymat.jpg)
+![näkymät](https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/nakymat.png)
 
 
 ## Toiminnallisuus
 
 Käyttäjä voi valita muutaman soittimen kokoelmasta haluamansa ja työstää uutta kappaletta
-tai jatkaa aikaisemmin aloitettua. Kappaleessa on muutama raita (määrää voi säätää asetuksista).
-Tässä vaiheessa tarkoitus on, että kappaleen rakenteen voi tallentaa tiedostoon, jotta sen voi avata
-tällä sovelluksella. Myöhemmin, kun olen ottanut aiheesta enemmän selvää ja jos osoittautuu mahdolliseksi,
-kappaleen voisi tallentaa esimerkiksi mp3-muodossa.
+tai jatkaa aikaisemmin aloitettua. Kappaleessa on kuusi raitaa. Kappaleen voi tallentaa tiedostoon, jotta
+sen voi avata tällä sovelluksella.
 
 ## Jatkokehitysideoita
 
@@ -36,4 +33,5 @@ Perusversioon lisättäviä ominaisuuksia:
  - kontrollirakenteet (loopit, tempon vaihtelu yms.)
  - äänenvoimakkuuden vaihtelu
  - efektejä
+ - kappaleen tallentaminen esim. WAV tai MP3 muodossa.
 
