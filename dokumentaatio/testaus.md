@@ -17,7 +17,7 @@ Sekin käyttää kuitenkin TrackerService-luokan palveluja.
 
 Graafista käyttöliittymää lukuunottamatta testauksen rivikattavuus on 73% ja haaratumakattavuus on 70%.
 
-
+<img src="https://github.com/PetroLeh/ot-harjoitustyo/blob/master/dokumentaatio/testaus.png">
 
 ## Järjestelmätestaus
 
